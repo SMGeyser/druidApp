@@ -1,0 +1,14 @@
+{
+  "name": "moonwild-druid-companion",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A local-first Circle of the Moon character companion for D&D 5.5e.",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node scripts/build-pages.js",
+    "check": "node --check app.js && node --check rules.js && node --check server.js",
+    "test": "node --test --test-isolation=none tests/*.test.js"
+  }
+}

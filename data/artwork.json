@@ -1,0 +1,813 @@
+{
+  "version": 1,
+  "created": "2026-10-16",
+  "generatedWith": "Built-in image_gen.imagegen",
+  "generatedCount": 44,
+  "licensedReferenceCount": 41,
+  "images": [
+    {
+      "name": "Allosaurus",
+      "file": "./assets/forms/allosaurus.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: Allosaurus, a large bipedal predatory theropod dinosaur with two small ridges above the eyes, long balancing tail and three-fingered forelimbs. Scene: fern-covered Jurassic woodland. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Ankylosaurus",
+      "file": "./assets/forms/ankylosaurus.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: Ankylosaurus, a low quadrupedal herbivorous dinosaur with heavy bony armor, broad body and a distinct heavy tail club. Scene: open Cretaceous woodland. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Ape",
+      "file": "./assets/forms/ape.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an adult chimpanzee, anatomically accurate with long arms and dark shaggy fur. Scene: a tropical forest floor. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Archelon",
+      "file": "./assets/forms/archelon.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: Archelon, a gigantic prehistoric sea turtle with long broad flippers, a leathery ridged carapace, and a turtle head. Scene: clear shallow prehistoric seawater. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Baboon",
+      "file": "./assets/forms/baboon.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an olive baboon with a long doglike muzzle, brown-gray fur and a curved tail. Scene: a rocky African savanna. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Badger",
+      "file": "./assets/forms/badger.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a European badger with unmistakable black-and-white striped face, stout gray body and short digging claws. Scene: a quiet woodland floor. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Bat",
+      "file": "./assets/forms/bat.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a small brown bat in flight, anatomically correct membranous wings stretched between long fingers, small furry body. Scene: a quiet cave entrance at dusk. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Black Bear",
+      "file": "./assets/forms/black-bear.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an American black bear with black fur, rounded ears and a straight facial profile. Scene: a temperate woodland clearing. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Blood Hawk",
+      "file": "./assets/forms/blood-hawk.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a fierce russet-feathered hawk with subtle dark red plumage, hooked beak and sharp talons, no blood or gore. Scene: a rocky scrubland perch. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Boar",
+      "file": "./assets/forms/boar.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a wild boar with coarse brown bristles, a long snout and short curved tusks. Scene: a European forest edge. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Brown Bear",
+      "file": "./assets/forms/brown-bear.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Photorealistic brown bear, one complete animal in a mossy forest clearing, landscape framing, natural soft daylight, true-to-life textures, no text or watermark.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Camel",
+      "file": "./assets/forms/camel.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a dromedary camel with one hump and sandy brown fur. Scene: a quiet desert dune. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Cat",
+      "file": "./assets/forms/cat.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a realistic gray tabby domestic cat with green eyes. Scene: an old garden wall. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Constrictor Snake",
+      "file": "./assets/forms/constrictor-snake.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a boa constrictor with a distinct brown saddle pattern, thick curved muscular body, whole head and coils clearly visible. Scene: a rainforest floor. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Crab",
+      "file": "./assets/forms/crab.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a shore crab with two front claws and eight walking legs, shell detail in focus. Scene: a coastal tide pool. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Crocodile",
+      "file": "./assets/forms/crocodile.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a Nile crocodile with scaly armor, broad elongated snout and powerful long tail. Scene: a still riverbank. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Deer",
+      "file": "./assets/forms/deer.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a graceful red deer doe with warm brown coat and slender legs. Scene: a sun-dappled woodland glade. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Dire Wolf",
+      "file": "./assets/forms/dire-wolf.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a formidable extinct dire wolf, a robust gray-brown wolf-like canid with a broad head, strong jaws, sturdy legs and thick natural fur; believable scientific reconstruction, no armor. Scene: a cool temperate forest. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Draft Horse",
+      "file": "./assets/forms/draft-horse.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a powerful chestnut Belgian draft horse, broad chest and feathered lower legs, no harness or saddle. Scene: a quiet meadow. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Eagle",
+      "file": "./assets/forms/eagle.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a golden eagle with brown wings, golden nape and hooked beak. Scene: a rocky mountain ledge. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Elephant",
+      "file": "./assets/forms/elephant.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an adult African savanna elephant with large ears, a long trunk and ivory tusks. Scene: a sunlit savanna. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Elk",
+      "file": "./assets/forms/elk.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a bull North American elk with a dark neck mane and long branching antlers. Scene: a grassy mountain meadow. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Frog",
+      "file": "./assets/forms/frog.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a small green pond frog with smooth moist skin and natural long back legs. Scene: a mossy pond edge. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Ape",
+      "file": "./assets/forms/giant-ape.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a huge silverback gorilla, fully realistic anatomy and silver-gray back, massive yet natural, with small ferns giving scale. Scene: a dense tropical forest clearing. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Badger",
+      "file": "./assets/forms/giant-badger.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous European badger with black-and-white striped face, muscular gray body and powerful digging claws, miniature ferns establish fantasy scale. Scene: a woodland burrow. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Bat",
+      "file": "./assets/forms/giant-bat.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a huge bat with furry brown body and anatomically correct broad membranous wings, wingspan enormous compared with small nearby cave ferns. Scene: a rocky cavern entrance. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Boar",
+      "file": "./assets/forms/giant-boar.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous massive wild boar with dark coarse bristles and large outward-curving tusks, surrounding saplings establish fantasy scale. Scene: a forest clearing. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Centipede",
+      "file": "./assets/forms/giant-centipede.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous orange-brown centipede with a segmented body, many paired legs and two long antennae, anatomically believable macro detail. Scene: a damp forest floor. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Constrictor Snake",
+      "file": "./assets/forms/giant-constrictor-snake.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous green anaconda with dark oval spotting and an exceptionally thick muscular coiled body, whole head visible, small river plants establish fantasy scale. Scene: a misty rainforest riverbank. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Crab",
+      "file": "./assets/forms/giant-crab.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous realistically armored red-brown crab with two claws and eight walking legs, small beach grasses give scale. Scene: a rocky tidal shore. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Crocodile",
+      "file": "./assets/forms/giant-crocodile.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous massive saltwater crocodile with olive-gray scale armor, broad powerful snout and long tail, small reeds give scale. Scene: a muddy tropical riverbank. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Fire Beetle",
+      "file": "./assets/forms/giant-fire-beetle.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous red-brown beetle with hard wing cases, exactly six legs, two antennae and two softly glowing amber glands beside its head. Scene: a mossy forest floor at dusk. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Fly",
+      "file": "./assets/forms/giant-fly.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous housefly with iridescent gray body, large red compound eyes, exactly six legs and one pair of transparent wings. Scene: a mossy decaying log. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Frog",
+      "file": "./assets/forms/giant-frog.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous green frog with moist realistic mottled skin and long hind legs, small water plants establish scale. Scene: a lush marsh edge. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Goat",
+      "file": "./assets/forms/giant-goat.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous shaggy white mountain goat with a short black horn pair and powerful hooves. Scene: a steep alpine rocky slope. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Hyena",
+      "file": "./assets/forms/giant-hyena.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous spotted hyena with sloped shoulders, powerful jaws, rounded ears and coarse spotted fur. Scene: a dry African savanna. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Lizard",
+      "file": "./assets/forms/giant-lizard.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous naturalistic green monitor lizard with a low elongated body, four splayed legs, claws and a long thick tail. Scene: a rocky woodland floor. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Octopus",
+      "file": "./assets/forms/giant-octopus.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous red-brown giant Pacific octopus with eight clearly natural arms, realistic suckers and mottled skin. Scene: clear coastal underwater kelp forest. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Rat",
+      "file": "./assets/forms/giant-rat.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous realistic brown rat with rounded ears, long whiskers, four feet and a long scaly tail. Scene: a moss-covered stone ruin. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Scorpion",
+      "file": "./assets/forms/giant-scorpion.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous tan scorpion with a jointed curved segmented tail, stinger, two pincers and eight walking legs. Scene: a rocky desert floor. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Seahorse",
+      "file": "./assets/forms/giant-seahorse.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous elegant orange-brown seahorse with a horse-shaped head, armored rings and curled grasping tail. Scene: a quiet underwater seagrass meadow. Realistic editorial wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species. Credible anatomy and detailed fur, scales or feathers. Landscape 3:2 composition, one entire animal framed centrally within the middle 80%, limbs and tail inside frame, softly blurred uncluttered habitat. Soft natural daylight, muted true-to-life colors. For giant forms, habitat vegetation provides subtle scale cues. No stylization, text, borders, watermark, humans, collars, armor, harnesses or magic decorations. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Shark",
+      "file": "./assets/forms/giant-shark.webp",
+      "kind": "species reference photograph",
+      "author": "Sharkcrew",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Guadalupe_Island_Great_White_Shark_Underwater.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Guadalupe_Island_Great_White_Shark_Underwater.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Giant Spider",
+      "file": "./assets/forms/giant-spider.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: an enormous realistic brown orb-weaver spider with exactly eight legs, two main body segments and a textured rounded abdomen. Scene: a web stretched between forest branches. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Giant Toad",
+      "file": "./assets/forms/giant-toad.webp",
+      "kind": "species reference photograph",
+      "author": "Tythatguy1312",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Common_Toad_Cornwall.jpeg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/18/Common_Toad_Cornwall.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Giant Venomous Snake",
+      "file": "./assets/forms/giant-venomous-snake.webp",
+      "kind": "species reference photograph",
+      "author": "Michael Allen Smith from Seattle, USA",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:12_-_The_Mystical_King_Cobra_and_Coffee_Forests.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/4/4d/12_-_The_Mystical_King_Cobra_and_Coffee_Forests.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Giant Wasp",
+      "file": "./assets/forms/giant-wasp.webp",
+      "kind": "species reference photograph",
+      "author": "Aconcagua (talk)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:European_hornet_090621.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/36/European_hornet_090621.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Giant Weasel",
+      "file": "./assets/forms/giant-weasel.webp",
+      "kind": "species reference photograph",
+      "author": "Marton Berntsen, crop by User:MPF",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:R%C3%B8yskatt_(Mustela_erminea_erminea),_Lista,_Norway.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/cf/R%C3%B8yskatt_%28Mustela_erminea_erminea%29%2C_Lista%2C_Norway.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Giant Wolf Spider",
+      "file": "./assets/forms/giant-wolf-spider.webp",
+      "kind": "species reference photograph",
+      "author": "Fir0002",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:Wolf_spider_tunnel.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/d/df/Wolf_spider_tunnel.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched.",
+      "authorUrl": "https://en.wikipedia.org/wiki/User:Fir0002"
+    },
+    {
+      "name": "Goat",
+      "file": "./assets/forms/goat.webp",
+      "kind": "species reference photograph",
+      "author": "Kuebi = Armin Kübelbeck",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Hausziege_04.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Hausziege_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Hawk",
+      "file": "./assets/forms/hawk.webp",
+      "kind": "species reference photograph",
+      "author": "Becky Matsubara from El Sobrante, California",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Red-tailed_Hawk_(45812546121).jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Red-tailed_Hawk_%2845812546121%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Hippopotamus",
+      "file": "./assets/forms/hippopotamus.webp",
+      "kind": "species reference photograph",
+      "author": "Muhammad Mahdi Karim",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Portrait_Hippopotamus_in_the_water.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Portrait_Hippopotamus_in_the_water.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Hunter Shark",
+      "file": "./assets/forms/hunter-shark.webp",
+      "kind": "species reference photograph",
+      "author": "Albert kok",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Tiger_shark.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/39/Tiger_shark.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Hyena",
+      "file": "./assets/forms/hyena.webp",
+      "kind": "species reference photograph",
+      "author": "Charles J. Sharp",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Spotted_hyena_(Crocuta_crocuta).jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Spotted_hyena_%28Crocuta_crocuta%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Jackal",
+      "file": "./assets/forms/jackal.webp",
+      "kind": "species reference photograph",
+      "author": "Giles Laurent",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:135_Black-backed_jackal_hunting_for_food_at_Cape_cross_Photo_by_Giles_Laurent.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/9a/135_Black-backed_jackal_hunting_for_food_at_Cape_cross_Photo_by_Giles_Laurent.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Killer Whale",
+      "file": "./assets/forms/killer-whale.webp",
+      "kind": "species reference photograph",
+      "author": "Robert Pittman",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/Commons:Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Killerwhales_jumping.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/37/Killerwhales_jumping.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Lion",
+      "file": "./assets/forms/lion.webp",
+      "kind": "species reference photograph",
+      "author": "Giles Laurent",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/a6/020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Lizard",
+      "file": "./assets/forms/lizard.webp",
+      "kind": "species reference photograph",
+      "author": "Mariomassone",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Podarcis_muralis_near_Entella_river_006.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Podarcis_muralis_near_Entella_river_006.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Mammoth",
+      "file": "./assets/forms/mammoth.webp",
+      "kind": "life reconstruction",
+      "author": "Mauricio Antón",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "source": "https://commons.wikimedia.org/wiki/File:Woolly_mammoth_(Mammuthus_primigenius)_-_Mauricio_Ant%C3%B3n.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Woolly_mammoth_%28Mammuthus_primigenius%29_-_Mauricio_Ant%C3%B3n.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Mastiff",
+      "file": "./assets/forms/mastiff.webp",
+      "kind": "species reference photograph",
+      "author": "Radovan Rohovsky",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Westgort_Anticipation_17_months.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Westgort_Anticipation_17_months.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Mule",
+      "file": "./assets/forms/mule.webp",
+      "kind": "species reference photograph",
+      "author": "Pacific Southwest Region 5",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/Commons:Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Pack_Mules_Waiting_(15755930793).jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/71/Pack_Mules_Waiting_%2815755930793%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Octopus",
+      "file": "./assets/forms/octopus.webp",
+      "kind": "species reference photograph",
+      "author": "albert kok",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Octopus2.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/57/Octopus2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Owl",
+      "file": "./assets/forms/owl.webp",
+      "kind": "species reference photograph",
+      "author": "Charles J. Sharp",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:American_Barn_Owl_(Tyto_furcata_guatemalae),_Orange_Walk.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/9e/American_Barn_Owl_%28Tyto_furcata_guatemalae%29%2C_Orange_Walk.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Panther",
+      "file": "./assets/forms/panther.webp",
+      "kind": "species reference photograph",
+      "author": "Davidvraju",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Black_Panther_-_India.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Black_Panther_-_India.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Piranha",
+      "file": "./assets/forms/piranha.webp",
+      "kind": "species reference photograph",
+      "author": "H. Zell",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Pygocentrus_nattereri_-_Karlsruhe_Zoo_01.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Pygocentrus_nattereri_-_Karlsruhe_Zoo_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Plesiosaurus",
+      "file": "./assets/forms/plesiosaurus.webp",
+      "kind": "life reconstruction",
+      "author": "Creator:Dmitry Bogdanov",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Plesiosaurus_3DB.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/30/Plesiosaurus_3DB.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Polar Bear",
+      "file": "./assets/forms/polar-bear.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a realistic polar bear with creamy white fur, small round ears, long neck and broad paws. Scene: a quiet Arctic rocky coastline. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Pony",
+      "file": "./assets/forms/pony.webp",
+      "kind": "species reference photograph",
+      "author": "Own work",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:289-o-Galant-SWE-71-SH-03.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/78/289-o-Galant-SWE-71-SH-03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Pteranodon",
+      "file": "./assets/forms/pteranodon.webp",
+      "kind": "life reconstruction",
+      "author": "TotalDino",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Pteranodon_TD.png",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Pteranodon_TD.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Rat",
+      "file": "./assets/forms/rat.webp",
+      "kind": "species reference photograph",
+      "author": "Dunpharlain",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Brown_Rat_(Rattus_norvegicus).jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/4/44/Brown_Rat_%28Rattus_norvegicus%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Raven",
+      "file": "./assets/forms/raven.webp",
+      "kind": "species reference photograph",
+      "author": "Frank Schulenburg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Corvus_corax_clarionensis,_Point_Reyes_National_Seashore.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/91/Corvus_corax_clarionensis%2C_Point_Reyes_National_Seashore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Reef Shark",
+      "file": "./assets/forms/reef-shark.webp",
+      "kind": "species reference photograph",
+      "author": "Charles J. Sharp",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Blacktip_reef_shark_(Carcharhinus_melanopterus)_Moorea.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Blacktip_reef_shark_%28Carcharhinus_melanopterus%29_Moorea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Rhinoceros",
+      "file": "./assets/forms/rhinoceros.webp",
+      "kind": "species reference photograph",
+      "author": "Giles Laurent",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:109_Male_White_rhinoceros_walking_in_the_Kalahari_Desert_of_Namibia_Photo_by_Giles_Laurent.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/2/28/109_Male_White_rhinoceros_walking_in_the_Kalahari_Desert_of_Namibia_Photo_by_Giles_Laurent.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Riding Horse",
+      "file": "./assets/forms/riding-horse.webp",
+      "kind": "species reference photograph",
+      "author": "Nokota_Horses.jpg: François Marchal\nderivative work: Dana boomer (talk)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:Nokota_Horses_cropped.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Saber-Toothed Tiger",
+      "file": "./assets/forms/saber-toothed-tiger.webp",
+      "kind": "AI-generated naturalistic artwork",
+      "author": "OpenAI image generation, created for Moonwild",
+      "prompt": "Use case: photorealistic-natural. Asset type: one individual animal image for a D&D Wild Shape field-guide website. Subject: a scientifically plausible Smilodon, a robust muscular tawny prehistoric big cat with short tail, thick forelimbs and two long curved upper saber teeth, believable fur and anatomy. Scene: a Pleistocene woodland edge. Realistic wildlife photography or photorealistic natural-history reconstruction for extinct and fantasy-sized species, credible detailed anatomy, fur/scales/feathers and natural textures, no stylization. Landscape 3:2 framing: one entire animal centered in the middle 80% with feet, ears, wings or tail safely inside frame, readable silhouette, uncluttered softly blurred habitat. Natural soft daylight, muted true-to-life colors, editorial wildlife photograph quality. For giant forms, believable large size with subtle habitat scale cues, no humans. No labels, letters, border, watermark, collar, armor, harness, or magical decoration. One animal, one image.",
+      "changes": "Resized and encoded as WebP. No semantic image editing."
+    },
+    {
+      "name": "Scorpion",
+      "file": "./assets/forms/scorpion.webp",
+      "kind": "species reference photograph",
+      "author": "Rosa Pineda",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Female_Emperor_Scorpion.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Female_Emperor_Scorpion.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Seahorse",
+      "file": "./assets/forms/seahorse.webp",
+      "kind": "species reference photograph",
+      "author": "Emőke Dénes",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Hal_-_Hippocampus_kuda_-_4.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Hal_-_Hippocampus_kuda_-_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Spider",
+      "file": "./assets/forms/spider.webp",
+      "kind": "species reference photograph",
+      "author": "Didier Descouens",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Araneus_diadematus_MHNT_Femelle_Fronton.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/16/Araneus_diadematus_MHNT_Femelle_Fronton.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Tiger",
+      "file": "./assets/forms/tiger.webp",
+      "kind": "species reference photograph",
+      "author": "Charles J. Sharp",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Bengal_tiger_(Panthera_tigris_tigris)_female_3_crop.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Bengal_tiger_%28Panthera_tigris_tigris%29_female_3_crop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Triceratops",
+      "file": "./assets/forms/triceratops.webp",
+      "kind": "life reconstruction",
+      "author": "TotalDino",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Triceratops_TD.png",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/4/45/Triceratops_TD.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Tyrannosaurus Rex",
+      "file": "./assets/forms/tyrannosaurus-rex.webp",
+      "kind": "life reconstruction",
+      "author": "Nobu Tamura",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Tyrannosaurus_rex_Reconstruction_by_Nobu_Tamura.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Tyrannosaurus_rex_Reconstruction_by_Nobu_Tamura.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Venomous Snake",
+      "file": "./assets/forms/venomous-snake.webp",
+      "kind": "species reference photograph",
+      "author": "Edward J. Wozniak, D.V.M., Ph.D. / CDC Public Health Image Library",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/Commons:Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Agkistrodon_contortrix_contortrix_CDC-a.png",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/96/Agkistrodon_contortrix_contortrix_CDC-a.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Vulture",
+      "file": "./assets/forms/vulture.webp",
+      "kind": "species reference photograph",
+      "author": "Pierre Dalous",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Gyps_fulvus_in_flight_-_Spain.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/4/49/Gyps_fulvus_in_flight_-_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Warhorse",
+      "file": "./assets/forms/warhorse.webp",
+      "kind": "species reference photograph",
+      "author": "Eponimm",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Cheval-percheron-gris_SDA2014_(cropped).jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/0/07/Cheval-percheron-gris_SDA2014_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Weasel",
+      "file": "./assets/forms/weasel.webp",
+      "kind": "species reference photograph",
+      "author": "Keven Law",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mustela_nivalis_-British_Wildlife_Centre-4.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Mustela_nivalis_-British_Wildlife_Centre-4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    },
+    {
+      "name": "Wolf",
+      "file": "./assets/forms/wolf.webp",
+      "kind": "species reference photograph",
+      "author": "User:Mas3cf",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Eurasian_wolf_2.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/6/68/Eurasian_wolf_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "changes": "Resized and encoded as WebP. Displayed in a responsive frame; not retouched."
+    }
+  ]
+}
