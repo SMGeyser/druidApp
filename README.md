@@ -1,23 +1,24 @@
 # Moonwild
 
-A responsive character companion for a **D&D 5.5e / 2024 Circle of the Moon druid**, built with native JavaScript, CSS, and local artwork. No packages required.
+A responsive character companion for a **D&D 5.5e / 2024 Circle of the Moon druid**, built with JavaScript, CSS, local artwork, and optional Supabase accounts.
 
 ## Run
 
-Requires Node.js 20 or later.
+Requires Node.js 24 (the version used by the deployment workflow).
 
 ```powershell
 cd druidApp
+npm ci
 npm start
 ```
 
-Open http://127.0.0.1:4173. Set `PORT` to choose another port. The included server listens only on localhost.
+Open http://127.0.0.1:4173. Set `PORT` to choose another port. The included server listens only on localhost. Starting the server bundles the Supabase browser SDK locally; the production build bundles it as well.
 
 For deployment, run `npm run build` and publish `dist/` with any static web host. The GitHub Pages workflow checks the code, runs the tests, builds the static files, and deploys after pushes to `main`. It publishes only the website's runtime files, images, and rules data.
 
 GitHub repository: https://github.com/SMGeyser/druidApp
 
-Character saves are local to each browser and website address. To move a character from localhost to the hosted site, export it locally and use **Restore backup** on the hosted site.
+Guest character saves are local to each browser and website address. To move a guest character from localhost to the hosted site, export it locally and use **Restore backup** on the hosted site. Accounts provide an additional way to save and load characters across devices; copying a guest character to an account is an explicit action.
 
 ```powershell
 npm run check
@@ -31,12 +32,26 @@ npm test
 - Character editing, HP/healing/damage, nonstacking temporary HP, ability rolls, retained mental scores, active-form duration, and concentration reminders.
 - Short/Long Rest recovery, optional one-form Long Rest replacement, Wild Resurgence, and Moonlight Step tracking.
 - SRD 5.2 druid spell reference, prepared spell selection, slot consumption/upcasting, concentration, and Wild Shape casting restrictions.
-- Campaign notes, equipment and trait notes, dated journal entries, activity history, browser-local persistence, and JSON backup export/restore.
+- Campaign notes, equipment and trait notes, dated journal entries, activity history, guest and account character saves, and JSON backup export/restore.
 - An individual realistic animal image for every form, locally served in WebP format with lazy loading. Responsive layouts, labeled dialogs, and keyboard navigation for collection tabs.
 
 The included level-6 character is a starting example. Use **Manage character** and **Manage forms** to configure your own. Form management and spell preparation controls are sheet setup/level-up/Long Rest tools; they do not simulate time passing. Short Rest healing from Hit Dice, combat turns, attacks, saves, spell effects, conditions, and feats are resolved at the table. Learn your cantrips during setup/level-up; the limit accounts for the Magician Primal Order. HP maximum, normal AC, and ability scores are entered manually. This companion assumes a single-class druid. Apply bonuses from feats, magic items, and additional proficiencies at the table; the displayed Moon CON save uses the Beast's save plus the Moon Wisdom bonus.
 
-Your save is stored under `moonwild.character.v1` in localStorage for the current browser and origin. Export backups before clearing browser storage or changing ports. The first load needs a local web server; after that, rules data and images are served locally with no API requests. The interface uses system fonts, with no remote font requests.
+## Characters and accounts
+
+The guest character is stored under `moonwild.character.v1` in localStorage for the current browser and origin. Guest play does not require an account. Export a JSON backup before clearing browser storage or changing ports; use **Restore backup** to import it.
+
+Open **Sign in & characters** to create an account or sign in with email and password. In **Character library**, use **New character** or **Load** to work with multiple private account characters. Use **Copy guest to account** to add the current guest character to the library; signing in alone does not upload it, and the guest original remains on the device. Export backups as an additional precaution.
+
+Account edits are saved automatically after a short debounce. A local draft may remain pending when the network is unavailable; it is not a confirmed cloud save until synchronization succeeds. Reconnect and use **Save now / retry** when needed. If another device changes the same character, the library offers **Keep both · save my copy** or **Replace my draft with cloud version** to resolve the conflict. Keeping both saves the local edits as a separate character; replacing the draft discards those local changes. Local account drafts are separated by account. Browser storage is still subject to clearing or loss, so retain exported backups.
+
+Rules data and images are served with the static app; account features contact Supabase. The interface uses system fonts, with no remote font requests.
+
+## Supabase setup
+
+The hosted app uses the Supabase project at `https://doenexbduxopppqhbtci.supabase.co`. The public project URL and publishable key are configured in `cloud.js`; a publishable key is intended for frontend use with Row Level Security (RLS). Never put a secret or service role key in frontend files. The migration `supabase/migrations/202611070001_characters.sql` has been applied to the configured project. Apply it to any replacement project before using account character saves. Its RLS policies restrict access to the authenticated owner; see [Supabase RLS documentation](https://supabase.com/docs/guides/database/postgres/row-level-security).
+
+In Supabase Auth URL configuration, the Site URL and hosted redirect are set to `https://smgeyser.github.io/druidApp/`. Add `http://127.0.0.1:4173/` to the allowed redirect URLs to use confirmation and recovery links with the local server. See [redirect URL configuration](https://supabase.com/docs/guides/auth/redirect-urls). Database validation passed for multiple characters, owner isolation, anonymous denial, revision conflicts, and malformed character data using rolled-back test records. Email authentication has not yet been verified end to end. Keep email confirmation enabled. Supabase's default email sender is restricted to project team addresses and two emails per hour; configure [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp) for public signup and password reset emails.
 
 ## Design
 

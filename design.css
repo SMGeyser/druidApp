@@ -45,8 +45,27 @@ button .icon, a .icon { pointer-events: none; }
 .sidebar-bottom > .text-button { width: 100%; gap: 8px; font-size: 12px; }
 .edition { margin-left: auto; font-size: 10px; border: 1px solid #cdd5c6; border-radius: 3px; padding: 0 4px; }
 .saved { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #667360; }
-.saved > span { width: 5px; height: 5px; background: #708a5e; border-radius: 50%; }
-.sidebar-bottom > .saved { margin-top: 16px; font-size: 10px; }
+.saved > span:first-child { width: 5px; height: 5px; flex-shrink: 0; background: #708a5e; border-radius: 50%; }
+.sidebar-bottom > .saved { margin-top: 16px; font-size: 10px; line-height: 1.5; }
+.account-open { margin-bottom: 12px; }
+.account-intro p { margin-top: 0; }
+.account-message { padding: 12px 0; border-bottom: 1px solid var(--line); color: var(--green, #183e35); line-height: 1.6; }
+.account-message:empty { display: none; }
+.account-identity { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; font-size: 13px; overflow-wrap: anywhere; }
+.account-error { padding: 12px 14px; background: #fbf3e8; border-left: 3px solid #ad7d3f; color: #775020; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.account-tools { flex-wrap: wrap; margin-bottom: 20px; }
+.character-library { display: grid; gap: 8px; margin: 18px 0 24px; }
+.library-character { display: flex; gap: 14px; align-items: center; justify-content: space-between; border: 1px solid var(--line); padding: 16px; border-radius: 6px; }
+.library-character.selected { border-color: #9aaf95; background: #f2f5ee; }
+.library-character div { min-width: 0; }
+.library-character strong { display: block; font-size: 15px; overflow-wrap: anywhere; }
+.library-character span { display: block; color: #687367; font-size: 12px; margin-top: 6px; }
+.guest-import { padding-top: 18px; border-top: 1px solid var(--line); }
+.guest-import h3, .account-conflict h3 { margin-top: 0; font-size: 16px; }
+.guest-import p, .account-conflict p, .library-empty { font-size: 13px; color: #687367; line-height: 1.7; }
+.account-conflict { padding: 18px; border: 1px solid #d2b282; border-radius: 6px; background: #fbf7ed; margin: 18px 0; }
+#account-reset { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 18px; }
+@media (max-width: 720px) { .account-tools .button { flex: 1 1 140px; } .account-identity .button { width: auto; } .library-character { padding: 12px; } footer { flex-wrap: wrap; } }
 .workspace { margin-left: 224px; }
 .topbar { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 0 34px; border-bottom: 1px solid var(--line); background: #fafaf7; }
 .breadcrumbs { display: flex; align-items: center; gap: 11px; color: var(--muted); font-size: 12px; }

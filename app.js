@@ -1,11 +1,13 @@
 import { ABILITIES, progression, mod, signed, crLabel, eligibility, effectiveAC, effectiveAbilities, takeDamage, transform, rest, isCircleSpell, canCastInForm } from './rules.js';
 import { animalArt, icon } from './art.js';
+import { CharacterStore } from './persistence.js';
+import { connectCloud, characterBackend, authRedirect } from './cloud.js';
 
 const $=s=>document.querySelector(s), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const KEY='moonwild.character.v1';
+let library, cloud, cloudError='', authReady=false, accountBusy=false, recoveryMode=false, authGeneration=0, latestAuthUser=null, accountNote='', displayedAccount=null, cloudStarting=null, authSubscription=null;
 let beasts=[], spells=[], artworkCredits=null, state, pendingBackup=null, view={tab:'known',search:'',movement:'all',cr:'all',sort:'name',layout:'grid',spellSearch:''};
 const defaultState=()=>({version:1,name:'Elowen Ashgrove',species:'Wood Elf',background:'Guide',level:6,maxHP:45,hp:45,tempHP:0,ac:15,abilities:{strength:10,dexterity:14,constitution:14,intelligence:12,wisdom:18,charisma:8},uses:3,slots:[4,3,3],known:['Brown Bear','Dire Wolf','Giant Spider','Saber-Toothed Tiger','Giant Constrictor Snake','Polar Bear'].map(n=>beasts.find(b=>b.name===n)?.key).filter(Boolean),favorites:[],prepared:['Entangle','Healing Word','Pass without Trace','Call Lightning'],active:null,concentration:'',notes:'',entries:[],activity:[],resurgenceUsed:false,moonSteps:4,primalOrder:'warden',cantrips:['Druidcraft','Guidance','Produce Flame'],equipment:'Leather armor, shield, quarterstaff, druidic focus, explorer’s pack, herbalism kit.'});
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{toast('Browser storage is unavailable. Export a backup to keep your changes.');}}
+function save(){library?.edit(state);}
 function log(message){state.activity.unshift({message,at:new Date().toISOString()});state.activity=state.activity.slice(0,20);save();}
 let toastTimer; function toast(message){$('#toast').textContent=message;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),4200);}
 const p=()=>progression(state.level), active=()=>beasts.find(b=>b.key===state.active), getBeast=key=>beasts.find(b=>b.key===key);
@@ -32,10 +34,10 @@ function render(){
   $('#app').innerHTML=`<aside class="sidebar"><a class="brand" href="#wild-shape"><img src="./assets/mark.svg" alt=""/><span>moonwild<span class="brand-sub">DRUID CHARACTER COMPANION</span></span></a>
     <div class="character-mini"><div class="avatar">${icon('leaf')}</div><strong>${esc(state.name)}</strong><span>Level ${state.level} · ${state.level>=3?'Circle of the Moon':'Druid'}</span><button class="text-button" data-action="edit-character">Manage character ${icon('chevrondown')}</button></div>
     <div class="nav-label">YOUR ADVENTURE</div><nav>${nav.map(([id,i,label])=>`<a href="#${id}" class="nav-link ${route===id?'active':''}" ${route===id?'aria-current="page"':''}>${icon(i)}<span>${label}</span>${id==='wild-shape'?'<span class="nav-count">'+state.known.length+'</span>':''}</a>`).join('')}</nav>
-    <div class="sidebar-bottom"><button class="text-button" data-action="sources">${icon('info')} Rules & sources <span class="edition">5.5e</span></button><div class="saved"><span></span> Saved on this device</div></div></aside>
+    <div class="sidebar-bottom"><button class="text-button account-open" data-action="account">${icon('book')} <span data-account-label>${esc(library?.user?'Character library':'Sign in & characters')}</span></button><button class="text-button" data-action="sources">${icon('info')} Rules & sources <span class="edition">5.5e</span></button><div class="saved" role="status" aria-live="polite"><span></span><span data-save-status>${esc(saveLabel())}</span></div></div></aside>
     <div class="workspace"><header class="topbar"><div class="breadcrumbs">My character ${icon('chevron')} <strong>${current[2]}</strong></div><div class="top-actions">${btn(icon('sun')+' Short rest','short-rest','quiet')}${btn(icon('moon')+' Long rest','long-rest','secondary') }<button class="round-avatar" aria-label="Edit character" data-action="edit-character">${esc(state.name.charAt(0))}</button></div></header>
     <main id="main-content">${route==='wild-shape'?wildPage():route==='character'?characterPage():route==='spells'?spellPage():route==='journal'?journalPage():progressionPage()}</main>
-    <footer><span>D&D 5.5e · Saved locally</span><button class="text-button" data-action="backup">Restore backup</button><button class="text-button" data-action="export">${icon('download')} Export character</button></footer></div>`;
+    <footer><span data-account-footer>${esc(accountFooter())}</span><button class="text-button" data-action="account">Character library</button><button class="text-button" data-action="backup">Restore backup</button><button class="text-button" data-action="export">${icon('download')} Export character</button></footer></div>`;
 }
 function pageHeading(eyebrow,title,subtitle,action=''){return `<div class="page-heading"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${subtitle}</p></div>${action}</div>`;}
 function resourceStrip(){const q=p();return `<div class="resource-strip"><div class="resource"><span class="resource-symbol">${icon('moon')}</span><div><span class="label">Wild Shape uses</span><div class="resource-value"><span class="pips">${Array.from({length:q.uses},(_,i)=>`<span class="pip ${i<state.uses?'filled':''}"></span>`).join('')}</span><strong>${state.uses}<small> / ${q.uses}</small></strong></div></div></div>
@@ -106,7 +108,7 @@ function amountDialog(type){modal(type==='damage'?'Take damage':type==='heal'?'R
 function spellDetail(key){const s=spells.find(s=>s.key===key);if(!s)return;modal(esc(s.name),`<span class="badge">${s.level?'Level '+s.level:'Cantrip'} · ${esc(s.school.name)}</span><p><strong>Casting time:</strong> ${esc(s.casting_time.replaceAll('_',' '))}<br><strong>Range:</strong> ${esc(s.range_text)}<br><strong>Duration:</strong> ${s.concentration?'Concentration, ':''}${esc(s.duration)}<br><strong>Components:</strong> ${[s.verbal?'V':'',s.somatic?'S':'',s.material?'M ('+s.material_specified+')':''].filter(Boolean).map(esc).join(', ')}</p><div class="spell-description">${esc(s.desc)}</div>${s.higher_level?`<p><strong>Higher levels.</strong> ${esc(s.higher_level)}</p>`:''}<p class="source-line">SRD 5.2 · Wizards of the Coast · CC BY 4.0 · Open5e</p><div class="modal-footer">${btn('Close','close-modal')}${btn('Cast spell','cast','primary',`data-key="${s.key}"`)}</div>`);}
 function castDialog(key){const s=spells.find(s=>s.key===key);if(!s)return;if(active()&&!canCastInForm(s,state.level))return toast('Revert before casting this spell.');if(s.level&&!state.prepared.includes(s.name)&&!isCircleSpell(s,state.level)&&s.name!=='Speak with Animals')return toast('Prepare this spell during setup or after a Long Rest.');if(!s.level){if(!state.cantrips.includes(s.name)&&!isCircleSpell(s,state.level))return toast('Learn this cantrip during setup or level-up first.');if(s.concentration)state.concentration=s.name;log('Cast '+s.name+'.');toast(s.name+' cast.');refresh();$('#modal').close();return;}
   const options=p().slots.map((_,i)=>i+1>=s.level&&state.slots[i]>0?`<option value="${i}">Level ${i+1} · ${state.slots[i]} remaining</option>`:'').join('');if(!options)return toast('No suitable spell slots remain.');modal('Cast '+esc(s.name),`<form id="cast-form" data-key="${key}"><label class="field">Spell slot<select name="slot">${options}</select></label>${s.concentration?`<p class="small muted">This requires concentration.${state.concentration?' It will replace '+esc(state.concentration)+'.':''}</p>`:''}<p class="small muted">This tracks the slot and concentration. Resolve the spell’s attacks, saves, healing, and damage at the table.</p><div class="modal-footer">${btn('Cancel','close-modal')}<button type="submit" class="button primary">Cast spell</button></div></form>`);}
-function sources(){modal('Rules & sources',`<p>Moonwild uses <strong>D&D 5.5e (the 2024 rules)</strong>, with Circle of the Moon features beginning at druid level 3. Character resources assume a single-class druid.</p><div class="source-card"><h3>Beasts & spells</h3><p>Bundled SRD 5.2 records from <a href="https://open5e.com/" target="_blank" rel="noopener">Open5e</a>, retrieved October 16, 2026. Swarms are excluded from the form library. No 2014 stat blocks are mixed in.</p><p>This work includes material taken from the System Reference Document 5.2 (“SRD 5.2”) by Wizards of the Coast LLC, available at <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener">dndbeyond.com/srd</a>. The SRD 5.2 is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License</a>. Changes: presentation, filtering, and derived character statistics.</p></div><div class="source-card"><h3>Druid & Circle of the Moon</h3><p>Progression checked against the <a href="https://www.dndbeyond.com/sources/dnd/br-2024/character-classes#Druid" target="_blank" rel="noopener">2024 Druid rules</a> and the official <a href="https://www.dndbeyond.com/posts/1755-the-2024-circle-of-the-moon-druid-and-changes-to" target="_blank" rel="noopener">Circle of the Moon overview</a>. Subclass features are summarized; consult your Player’s Handbook for full text and table rulings.</p></div><p class="small muted">Moonwild is an independent companion, unaffiliated with Wizards of the Coast. Data stays in this browser. Use Export character for backups. Form images combine AI-generated naturalistic artwork, licensed wildlife photographs, and prehistoric life reconstructions. Photographs used for giant forms are species references; stat blocks determine size and game statistics.</p><div class="modal-footer">${btn('Artwork credits','image-credits','secondary')}${btn('Close','close-modal','primary')}</div>`,true);}
+function sources(){modal('Rules & sources',`<p>Moonwild uses <strong>D&D 5.5e (the 2024 rules)</strong>, with Circle of the Moon features beginning at druid level 3. Character resources assume a single-class druid.</p><div class="source-card"><h3>Beasts & spells</h3><p>Bundled SRD 5.2 records from <a href="https://open5e.com/" target="_blank" rel="noopener">Open5e</a>, retrieved October 16, 2026. Swarms are excluded from the form library. No 2014 stat blocks are mixed in.</p><p>This work includes material taken from the System Reference Document 5.2 (“SRD 5.2”) by Wizards of the Coast LLC, available at <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener">dndbeyond.com/srd</a>. The SRD 5.2 is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License</a>. Changes: presentation, filtering, and derived character statistics.</p></div><div class="source-card"><h3>Druid & Circle of the Moon</h3><p>Progression checked against the <a href="https://www.dndbeyond.com/sources/dnd/br-2024/character-classes#Druid" target="_blank" rel="noopener">2024 Druid rules</a> and the official <a href="https://www.dndbeyond.com/posts/1755-the-2024-circle-of-the-moon-druid-and-changes-to" target="_blank" rel="noopener">Circle of the Moon overview</a>. Subclass features are summarized; consult your Player’s Handbook for full text and table rulings.</p></div><p class="small muted">Moonwild is an independent companion, unaffiliated with Wizards of the Coast. Guest characters stay in this browser. Signed-in characters sync privately to your account. Use Export character for backups. Form images combine AI-generated naturalistic artwork, licensed wildlife photographs, and prehistoric life reconstructions. Photographs used for giant forms are species references; stat blocks determine size and game statistics.</p><div class="modal-footer">${btn('Artwork credits','image-credits','secondary')}${btn('Close','close-modal','primary')}</div>`,true);}
 async function showImageCredits(name){
   try {
     if(!artworkCredits){const response=await fetch('./data/artwork.json');if(!response.ok)throw Error('Image credits are unavailable.');artworkCredits=await response.json();}
@@ -115,7 +117,132 @@ async function showImageCredits(name){
     modal(name?esc(name)+' · image credit':'Artwork credits',`<p>44 generated images and 41 licensed animal references. Naturalistic artwork illustrates the form; rules determine its size and capabilities.</p>${credits.map(c=>'<div class="art-credit"><img src="'+esc(c.file)+'" alt="'+esc(c.name)+'" loading="lazy" width="100" height="75"><div><h3>'+esc(c.name)+'</h3><p>'+esc(c.kind)+' · '+esc(c.author||'Generated with OpenAI image generation')+'</p>'+(c.source?'<a href="'+safeLink(c.source)+'" target="_blank" rel="noopener">Original source</a> · <a href="'+safeLink(c.licenseUrl)+'" target="_blank" rel="noopener">'+esc(c.license)+'</a>':'<p>Original generated artwork for Moonwild.</p>')+'<p class="small muted">'+esc(c.changes||'Encoded as local WebP.')+'</p></div></div>').join('')}<div class="modal-footer">${btn('Close','close-modal','primary')}</div>`,true);
   }catch(error){toast(error.message);}
 }
+function saveLabel(){
+  if(!library)return 'Opening local character…';
+  const s=library.snapshot();
+  if(s.storageError)return 'Storage unavailable · export a backup';
+  return ({guest:'Guest · saved on this device',loading:'Loading account library…',pending:'Draft on this device · save pending',saving:'Saving to your account…',saved:s.current?'Saved to your account':'Account library · choose or create',offline:'Offline / save failed · draft on this device',conflict:'Save conflict · review your library'})[s.status]||'Draft on this device';
+}
+function accountFooter(){return library?.user?'D&D 5.5e · Private account library':'D&D 5.5e · Guest · this device';}
+function updateAccountChrome(){
+  document.querySelectorAll('[data-save-status]').forEach(el=>el.textContent=saveLabel());
+  document.querySelectorAll('[data-account-label]').forEach(el=>el.textContent=library?.user?'Character library':'Sign in & characters');
+  document.querySelectorAll('[data-account-footer]').forEach(el=>el.textContent=accountFooter());
+  if($('#modal').open&&$('#account-library'))showAccount();
+}
+function showAccount(note=accountNote){
+  accountNote=note;
+  if(!library)return;
+  if(!library.user){
+    modal('Your characters',`<div class="account-intro"><p>Keep playing as a guest, or sign in to a private character library on your other devices.</p><p class="small muted">Your guest character stays on this device. Signing in never uploads it. Copy it to your account from the library when you choose.</p></div>
+      <p class="account-message" role="status">${esc(note||cloudError||(!authReady?'Connecting to accounts…':''))}</p>
+      <form id="account-auth"><label class="field">Email<input name="email" type="email" autocomplete="email" required></label><label class="field">Password<input name="password" type="password" minlength="8" autocomplete="current-password" required></label>
+      <div class="button-row"><button class="button primary" name="intent" value="signin" ${!cloud||!authReady||accountBusy?'disabled':''}>Sign in</button><button class="button secondary" name="intent" value="signup" ${!cloud||!authReady||accountBusy?'disabled':''}>Create account</button></div><p class="small muted">Use at least 8 characters. New accounts may require email confirmation.</p></form>
+      <form id="account-reset"><label class="field">Password reset email<input name="email" type="email" autocomplete="email" required></label><button class="text-button" ${!cloud||!authReady||accountBusy?'disabled':''}>Send password reset</button></form>
+      <div class="modal-footer">${!cloud?btn('Retry connection','cloud-retry'):''}${btn('Continue as guest','close-modal','primary')}</div>`);
+    return;
+  }
+  const s=library.snapshot(), disabled=accountBusy?'disabled':'';
+  modal('Character library',`<div id="account-library"><div class="account-identity"><span>Signed in as <strong>${esc(s.user.email||'your account')}</strong></span>${btn('Sign out','account-signout','secondary',disabled)}</div><p class="account-message" role="status">${esc(note||saveLabel())}</p>${s.error?`<p class="account-error">${esc(s.error)}</p>`:''}
+    <div class="button-row account-tools">${btn('New character','account-new','primary',disabled)}${btn('Duplicate current','account-duplicate','secondary',disabled)}${btn('Save now / retry','account-save','secondary',disabled)}${btn('Refresh library','account-refresh','quiet',disabled)}</div>
+    ${s.conflict?`<section class="account-conflict"><h3>Two versions need your choice</h3><p>Your edits are kept on this device. Another session changed this character. Keep both creates a separate character with your current edits.</p><div class="button-row">${btn('Keep both · save my copy','account-keep-both','primary',disabled)}${!s.conflict.missing?btn('Replace my draft with cloud version','account-use-server','secondary',disabled):''}</div></section>`:''}
+    <div class="character-library">${s.records.length?s.records.map(r=>`<article class="library-character ${s.current===r.id?'selected':''}"><div><strong>${esc(r.name)}</strong><span>Level ${esc(r.level)} · ${r.conflict?'Conflict to resolve':r.dirty?'Draft on this device':r.isNew?'New draft':'Saved to account'}${s.current===r.id?' · Current':''}</span></div>${btn(s.current===r.id?'Loaded':'Load','account-load','secondary',`data-key="${esc(r.id)}" ${s.current===r.id||accountBusy?'disabled':''}`)}</article>`).join(''):'<p class="library-empty">Your account has no characters yet. Create one or copy your guest character.</p>'}</div>
+    <section class="guest-import"><h3>Your guest character</h3><p><strong>${esc(library.readGuest().name)}</strong> remains separate on this device. Copying adds a new account character and keeps the guest original.</p>${btn('Copy guest to account','account-import','secondary',disabled)}</section>
+    <div class="modal-footer">${btn('Change password','account-password','quiet',disabled)}${btn('Return to adventure','close-modal','primary')}</div></div>`,true);
+}
+function passwordDialog(note=''){
+  modal(recoveryMode?'Reset your password':'Change password',`<p class="account-message" role="status">${esc(note||'Choose a new password with at least 8 characters.')}</p><form id="account-password-form"><label class="field">New password<input name="password" type="password" minlength="8" autocomplete="new-password" required></label><label class="field">Confirm password<input name="confirm" type="password" minlength="8" autocomplete="new-password" required></label><div class="modal-footer">${btn('Cancel','close-modal')}<button class="button primary" ${accountBusy?'disabled':''}>Save password</button></div></form>`);
+}
+async function accountTask(work){
+  if(accountBusy)return;
+  accountBusy=true;
+  document.querySelectorAll('#account-auth button, #account-reset button, #account-password-form button').forEach(button=>button.disabled=true);
+  if($('#account-library'))showAccount();
+  try{await work();}catch(error){if($('#account-password-form'))passwordDialog(error.message);else showAccount(error.message);}
+  finally{accountBusy=false;if($('#account-library')||$('#account-auth'))showAccount();document.querySelectorAll('#account-password-form button').forEach(button=>button.disabled=false);}
+}
+async function accountAction(action,key){
+  if(action==='account'){showAccount('');return;}
+  if(action==='cloud-retry'){await startCloud();showAccount();return;}
+  if(action==='account-password'){passwordDialog();return;}
+  await accountTask(async()=>{
+    if(action==='account-signout'){
+      const epoch=library.epoch;
+      const synced=await library.flush();
+      if(epoch!==library.epoch)return;
+      const result=await cloud.auth.signOut({scope:'local'});if(result.error)throw result.error;
+      if(latestAuthUser)return;
+      await library.setUser(null);recoveryMode=false;refresh();
+      showAccount(synced?'Signed out. Your guest character is ready.':'Signed out. Unsynced account drafts stay on this device for your next sign-in.');
+    }else if(action==='account-new'||action==='account-duplicate'||action==='account-import'){
+      const next=action==='account-new'?{...defaultState(),name:'New druid'}:action==='account-import'?library.readGuest():{...state,name:state.name.slice(0,62)+' (copy)'};
+      await library.create(next);showAccount();
+    }else if(action==='account-load'){await library.select(key);showAccount();}
+    else if(action==='account-save'){await library.flush();showAccount();}
+    else if(action==='account-refresh'){await library.flush();await library.refreshLibrary();showAccount();}
+    else if(action==='account-keep-both'){await library.keepBoth();showAccount();}
+    else if(action==='account-use-server'){library.useServer();showAccount();}
+  });
+}
+async function accountSubmit(form,data,intent){
+  await accountTask(async()=>{
+    if(!cloud)throw Error('Accounts are unavailable. Retry the connection.');
+    if(form.id==='account-auth'){
+      const email=String(data.get('email')).trim(),password=String(data.get('password'));
+      const result=intent==='signup'?await cloud.auth.signUp({email,password,options:{emailRedirectTo:authRedirect()}}):await cloud.auth.signInWithPassword({email,password});
+      if(result.error)throw result.error;
+      if(result.data.session){if(result.data.session.user.id===latestAuthUser?.id)await library.setUser(result.data.session.user);showAccount();}
+      else showAccount('Check your email to confirm your account, then sign in. Delivery depends on the project email configuration.');
+    }else if(form.id==='account-reset'){
+      const result=await cloud.auth.resetPasswordForEmail(String(data.get('email')).trim(),{redirectTo:authRedirect()});if(result.error)throw result.error;
+      showAccount('If this email can receive a reset link, it will arrive shortly. Open it in this browser.');
+    }else if(form.id==='account-password-form'){
+      if(data.get('password')!==data.get('confirm'))throw Error('Passwords do not match.');
+      const result=await cloud.auth.updateUser({password:String(data.get('password'))});if(result.error)throw result.error;
+      recoveryMode=false;showAccount('Password updated.');
+    }
+  });
+}
+function startCloud(){
+  if(cloud&&authReady)return Promise.resolve();
+  if(cloudStarting)return cloudStarting;
+  cloudStarting=initializeCloud().finally(()=>{cloudStarting=null;});
+  return cloudStarting;
+}
+async function initializeCloud(){
+  cloudError='';authReady=false;
+  const link=new URL(location.href),linkError=link.searchParams.get('error_description')||new URLSearchParams(link.hash.slice(1)).get('error_description');
+  if(linkError)cloudError='This email link could not be used: '+linkError+'. Request a new link from the sign-in form.';
+  try{
+    cloud=await connectCloud();library.backend=characterBackend(cloud);
+    // Callbacks remain synchronous. DB work runs after the Auth lock releases.
+    const {data:subscription}=cloud.auth.onAuthStateChange((event,session)=>{
+      authGeneration++;
+      latestAuthUser=session?.user||null;
+      const generation=authGeneration;
+      if(event==='PASSWORD_RECOVERY')recoveryMode=true;
+      setTimeout(async()=>{
+        if(generation!==authGeneration)return;
+        await library.setUser(session?.user||null);
+        if(generation!==authGeneration)return;
+        if(recoveryMode&&session)passwordDialog();
+        else if($('#account-auth')||$('#account-library'))showAccount();
+      },0);
+    });
+    authSubscription=subscription.subscription;
+    const generation=authGeneration,{data,error}=await cloud.auth.getSession();if(error)throw error;
+    if(generation===authGeneration){latestAuthUser=data.session?.user||null;await library.setUser(latestAuthUser);}
+    authReady=true;updateAccountChrome();
+    if($('#account-auth'))showAccount();
+  }catch(error){
+    authGeneration++;authSubscription?.unsubscribe();authSubscription=null;cloud=null;latestAuthUser=null;
+    await library.setUser(null);
+    cloudError='Accounts could not connect. Guest play and JSON exports are available. '+error.message;authReady=true;updateAccountChrome();
+    if($('#account-auth'))showAccount();
+  }
+}
 document.addEventListener('click',e=>{const el=e.target.closest('[data-action]');if(!el||el.disabled)return;const a=el.dataset.action,key=el.dataset.key,value=el.dataset.value;
+  if(a==='account'||a==='cloud-retry'||a.startsWith('account-')){accountAction(a,key).catch(error=>toast(error.message));return;}
   if(a==='close-modal')return $('#modal').close();
   if(a==='tab'){view.tab=value;refresh();} else if(a==='layout'){view.layout=value;refresh();}else if(a==='clear-filters'){view.search='';view.movement='all';view.cr='all';refresh();}
   else if(a==='edit-character')editCharacter();else if(a==='manage-forms')manageForms();else if(a==='beast-details')details(key);else if(a==='sources')sources();else if(a==='image-credits')showImageCredits(value);else if(a==='short-rest'||a==='long-rest')restDialog(a==='short-rest'?'short':'long');
@@ -138,8 +265,9 @@ document.addEventListener('click',e=>{const el=e.target.closest('[data-action]')
 });
 document.addEventListener('input',e=>{const t=e.target;if(t.id==='form-search'){view.search=t.value;updateForms();}if(t.id==='spell-search'){view.spellSearch=t.value;updateSpells();}if(t.id==='equipment-notes'){state.equipment=t.value;save();}if(t.id==='campaign-notes'){state.notes=t.value;save();}if(t.id==='concentration'){state.concentration=t.value;save();}if(t.closest('#known-form')){const n=$$('#known-form input:checked').length;$('#known-count').textContent=`${n} / ${p().known} selected`;}});
 const $$=s=>Array.from(document.querySelectorAll(s));
-document.addEventListener('change',async e=>{const t=e.target;if(t.id==='backup-file'){pendingBackup=null;$('#restore-backup-button').disabled=true;try{const file=t.files[0];if(!file)return;if(file.size>2000000)throw Error('Choose a backup smaller than 2 MB.');const raw=JSON.parse(await file.text());if(raw.version!==1||typeof raw.name!=='string'||!raw.abilities||!Array.isArray(raw.known))throw Error('This is not a valid Moonwild character backup.');pendingBackup=normalize(raw);$('#backup-preview').innerHTML='<div class="source-card"><h3>'+esc(pendingBackup.name)+'</h3><p>Level '+pendingBackup.level+' · '+esc(pendingBackup.species)+' · '+pendingBackup.known.length+' known forms. Restoring replaces the character saved in this browser.</p></div>';$('#restore-backup-button').disabled=false;}catch(err){$('#backup-preview').textContent=err.message;}return;}if(t.id==='movement-filter'){view.movement=t.value;updateForms();}if(t.id==='cr-filter'){view.cr=t.value;updateForms();}if(t.id==='sort-forms'){view.sort=t.value;updateForms();}});
+document.addEventListener('change',async e=>{const t=e.target;if(t.id==='backup-file'){pendingBackup=null;$('#restore-backup-button').disabled=true;try{const file=t.files[0];if(!file)return;if(file.size>2000000)throw Error('Choose a backup smaller than 2 MB.');const raw=JSON.parse(await file.text());if(raw.version!==1||typeof raw.name!=='string'||!raw.abilities||!Array.isArray(raw.known))throw Error('This is not a valid Moonwild character backup.');pendingBackup=normalize(raw);$('#backup-preview').innerHTML='<div class="source-card"><h3>'+esc(pendingBackup.name)+'</h3><p>Level '+pendingBackup.level+' · '+esc(pendingBackup.species)+' · '+pendingBackup.known.length+' known forms.</p><p>'+(library?.user?(library.current?'Restoring replaces “'+esc(state.name)+'” and saves the replacement to your account.':'Restoring adds this character to your account and saves it to the cloud.'):'Restoring replaces the character saved in this browser.')+'</p></div>';$('#restore-backup-button').disabled=false;}catch(err){$('#backup-preview').textContent=err.message;}return;}if(t.id==='movement-filter'){view.movement=t.value;updateForms();}if(t.id==='cr-filter'){view.cr=t.value;updateForms();}if(t.id==='sort-forms'){view.sort=t.value;updateForms();}});
 document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=new FormData(f);
+  if(f.id.startsWith('account-')){accountSubmit(f,d,e.submitter?.value).catch(error=>toast(error.message));return;}
   if(f.id==='character-form'){const old=p();const level=Number(d.get('level'));state={...state,name:d.get('name').trim(),species:d.get('species').trim(),background:d.get('background').trim(),level,maxHP:Number(d.get('maxHP')),ac:Number(d.get('ac')),primalOrder:d.get('primalOrder'),abilities:Object.fromEntries(ABILITIES.map(a=>[a,Number(d.get(a))]))};state=normalize(state);if(progression(level).uses>old.uses)toast('New resource limits unlocked. Complete a rest to recharge.');log('Updated character sheet.');}
   else if(f.id==='known-form'){const known=d.getAll('known');if(known.length>p().known)return toast(`Choose at most ${p().known} forms.`);state.known=known;if(!known.includes(state.active))state.active=null;log('Updated known forms during setup / level-up.');}
   else if(f.id==='rest-form'){const forget=d.get('forget'),learn=d.get('learn');if(Boolean(forget)!==Boolean(learn))return toast('Choose both a form to forget and a form to learn, or leave both blank.');if(forget&&learn)state.known=state.known.map(k=>k===forget?learn:k);state=rest(state,f.dataset.type);log(`Completed a ${f.dataset.type==='long'?'Long':'Short'} Rest.`);toast('Rest complete. Your resources are refreshed.');}
@@ -153,5 +281,18 @@ document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=new
 window.addEventListener('hashchange',()=>{refresh();window.scrollTo(0,0);});
 document.addEventListener('keydown',e=>{if(e.target.matches('[role=tab]')&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const tabs=$$('[role=tab]');let i=tabs.indexOf(e.target);i=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;view.tab=tabs[i].dataset.value;refresh();$$('[role=tab]')[i].focus();return;}if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&!$('#modal').open){e.preventDefault();$('#form-search')?.focus();}});
 setInterval(()=>{if($('#shape-timer'))$('#shape-timer').textContent=remainingTime();if(state?.active&&state.shiftedAt&&Date.now()-state.shiftedAt>=p().hours*3600000){state.active=null;save();refresh();toast('Your Wild Shape duration has ended.');}},10000);
-async function boot(){try{const responses=await Promise.all([fetch('./data/beasts.json'),fetch('./data/spells.json')]);if(responses.some(r=>!r.ok))throw Error('Data could not be loaded.');const [b,s]=await Promise.all(responses.map(r=>r.json()));beasts=b.filter(b=>!b.name.startsWith('Swarm of'));spells=s;try{const raw=localStorage.getItem(KEY);state=raw?normalize(JSON.parse(raw)):defaultState();}catch{state=defaultState();}if(state.active&&Date.now()-(state.shiftedAt||0)>=p().hours*3600000)state.active=null;save();refresh();}catch(err){$('#app').innerHTML=`<div class="loading"><h1>The path is a little overgrown.</h1><p>${esc(err.message)}</p><p>Start the app with <code>npm start</code> and open <a href="http://127.0.0.1:4173">localhost:4173</a>.</p><button class="button primary" onclick="location.reload()">Try again</button></div>`;}}
+async function boot(){try{const responses=await Promise.all([fetch('./data/beasts.json'),fetch('./data/spells.json')]);if(responses.some(r=>!r.ok))throw Error('Data could not be loaded.');const [b,s]=await Promise.all(responses.map(r=>r.json()));beasts=b.filter(b=>!b.name.startsWith('Swarm of'));spells=s;
+  // Access storage lazily: privacy settings may make the localStorage getter throw.
+  const storage={getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)};
+  library=new CharacterStore({storage,normalize,defaults:defaultState,backend:null,changed:(snapshot,replace)=>{
+    if(displayedAccount!==(snapshot.user?.id||null)){displayedAccount=snapshot.user?.id||null;accountNote='';if($('#account-password-form')){recoveryMode=false;showAccount();}}
+    if(replace){state=normalize(snapshot.character);if($('#modal').open&&!$('#account-library')&&!$('#account-auth')&&!$('#account-password-form'))$('#modal').close();refresh();if($('#account-library')||(!snapshot.user&&$('#account-password-form')))showAccount();}
+    else updateAccountChrome();
+  }});
+  state=library.character;if(state.active&&Date.now()-(state.shiftedAt||0)>=p().hours*3600000){state.active=null;save();}refresh();startCloud();
+  window.addEventListener('online',()=>{if(library.user)library.flush();else if(!cloud)startCloud();});
+  window.addEventListener('pagehide',()=>{library.flush();});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')library.flush();});
+  window.addEventListener('beforeunload',event=>{const snapshot=library.snapshot();if(snapshot.storageError||snapshot.records.some(r=>r.dirty)){event.preventDefault();event.returnValue='';}});
+}catch(err){$('#app').innerHTML=`<div class="loading"><h1>The path is a little overgrown.</h1><p>${esc(err.message)}</p><p>Start the app with <code>npm start</code> and open <a href="http://127.0.0.1:4173">localhost:4173</a>.</p><button class="button primary" onclick="location.reload()">Try again</button></div>`;}}
 boot();

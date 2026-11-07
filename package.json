@@ -5,10 +5,13 @@
   "type": "module",
   "description": "A local-first Circle of the Moon character companion for D&D 5.5e.",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js",
-    "build": "node scripts/build-pages.js",
-    "check": "node --check app.js && node --check rules.js && node --check server.js",
+    "dev": "npm run bundle && node server.js",
+    "start": "npm run bundle && node server.js",
+    "bundle": "node scripts/bundle-sdk.js",
+    "build": "npm run bundle && node scripts/build-pages.js",
+    "check": "node --check app.js && node --check rules.js && node --check persistence.js && node --check cloud.js && node --check server.js",
     "test": "node --test --test-isolation=none tests/*.test.js"
-  }
+  },
+  "dependencies": { "@supabase/supabase-js": "2.119.0" },
+  "devDependencies": { "esbuild": "0.28.2" }
 }

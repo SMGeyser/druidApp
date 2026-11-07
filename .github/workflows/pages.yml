@@ -22,6 +22,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
+      - name: Install pinned dependencies
+        run: npm ci
       - name: Check JavaScript
         run: npm run check
       - name: Test character rules and artwork
