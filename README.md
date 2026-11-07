@@ -25,6 +25,8 @@ npm run check
 npm test
 ```
 
+For a local-only authentication interface preview, run `node tests/auth-ui-server.js` and open http://127.0.0.1:4174/. This uses an in-memory fake SDK: `returning@example.test` signs in, `wrong@example.test` returns an error, and signup and password recovery show the email-sent flow without sending email. Add `?test-recovery=1` to preview password recovery. This does not test real authentication or the configured email service.
+
 ## Features
 
 - Dedicated Wild Shape page: 85 individual SRD 5.2 Beast forms, full stat blocks, search, CR and movement filters, favorites, grid/list views, known forms, and transformation tracking.
@@ -41,7 +43,7 @@ The included level-6 character is a starting example. Use **Manage character** a
 
 The guest character is stored under `moonwild.character.v1` in localStorage for the current browser and origin. Guest play does not require an account. Export a JSON backup before clearing browser storage or changing ports; use **Restore backup** to import it.
 
-Open **Sign in & characters** to create an account or sign in with email and password. In **Character library**, use **New character** or **Load** to work with multiple private account characters. Use **Copy guest to account** to add the current guest character to the library; signing in alone does not upload it, and the guest original remains on the device. Export backups as an additional precaution.
+Open **Sign in** to sign in with email and password, create an account, or start password recovery. In **Character library**, use **New character** or **Load** to work with multiple private account characters. Use **Copy guest to account** to add the current guest character to the library; signing in alone does not upload it, and the guest original remains on the device. Export backups as an additional precaution.
 
 Account edits are saved automatically after a short debounce. A local draft may remain pending when the network is unavailable; it is not a confirmed cloud save until synchronization succeeds. Reconnect and use **Save now / retry** when needed. If another device changes the same character, the library offers **Keep both · save my copy** or **Replace my draft with cloud version** to resolve the conflict. Keeping both saves the local edits as a separate character; replacing the draft discards those local changes. Local account drafts are separated by account. Browser storage is still subject to clearing or loss, so retain exported backups.
 

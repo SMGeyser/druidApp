@@ -2,9 +2,12 @@ import { ABILITIES, progression, mod, signed, crLabel, eligibility, effectiveAC,
 import { animalArt, icon } from './art.js';
 import { CharacterStore } from './persistence.js';
 import { connectCloud, characterBackend, authRedirect } from './cloud.js';
+import { AuthFlow, validateAuth, authErrorMessage } from './auth-ui.js';
 
 const $=s=>document.querySelector(s), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let library, cloud, cloudError='', authReady=false, accountBusy=false, recoveryMode=false, authGeneration=0, latestAuthUser=null, accountNote='', displayedAccount=null, cloudStarting=null, authSubscription=null;
+const authFlow=new AuthFlow();
+let passwordFeedback='', passwordFields={}, passwordBusy=false, passwordRequest=0, recoveryPromptPending=false;
 let beasts=[], spells=[], artworkCredits=null, state, pendingBackup=null, view={tab:'known',search:'',movement:'all',cr:'all',sort:'name',layout:'grid',spellSearch:''};
 const defaultState=()=>({version:1,name:'Elowen Ashgrove',species:'Wood Elf',background:'Guide',level:6,maxHP:45,hp:45,tempHP:0,ac:15,abilities:{strength:10,dexterity:14,constitution:14,intelligence:12,wisdom:18,charisma:8},uses:3,slots:[4,3,3],known:['Brown Bear','Dire Wolf','Giant Spider','Saber-Toothed Tiger','Giant Constrictor Snake','Polar Bear'].map(n=>beasts.find(b=>b.name===n)?.key).filter(Boolean),favorites:[],prepared:['Entangle','Healing Word','Pass without Trace','Call Lightning'],active:null,concentration:'',notes:'',entries:[],activity:[],resurgenceUsed:false,moonSteps:4,primalOrder:'warden',cantrips:['Druidcraft','Guidance','Produce Flame'],equipment:'Leather armor, shield, quarterstaff, druidic focus, explorer’s pack, herbalism kit.'});
 function save(){library?.edit(state);}
@@ -34,10 +37,10 @@ function render(){
   $('#app').innerHTML=`<aside class="sidebar"><a class="brand" href="#wild-shape"><img src="./assets/mark.svg" alt=""/><span>moonwild<span class="brand-sub">DRUID CHARACTER COMPANION</span></span></a>
     <div class="character-mini"><div class="avatar">${icon('leaf')}</div><strong>${esc(state.name)}</strong><span>Level ${state.level} · ${state.level>=3?'Circle of the Moon':'Druid'}</span><button class="text-button" data-action="edit-character">Manage character ${icon('chevrondown')}</button></div>
     <div class="nav-label">YOUR ADVENTURE</div><nav>${nav.map(([id,i,label])=>`<a href="#${id}" class="nav-link ${route===id?'active':''}" ${route===id?'aria-current="page"':''}>${icon(i)}<span>${label}</span>${id==='wild-shape'?'<span class="nav-count">'+state.known.length+'</span>':''}</a>`).join('')}</nav>
-    <div class="sidebar-bottom"><button class="text-button account-open" data-action="account">${icon('book')} <span data-account-label>${esc(library?.user?'Character library':'Sign in & characters')}</span></button><button class="text-button" data-action="sources">${icon('info')} Rules & sources <span class="edition">5.5e</span></button><div class="saved" role="status" aria-live="polite"><span></span><span data-save-status>${esc(saveLabel())}</span></div></div></aside>
-    <div class="workspace"><header class="topbar"><div class="breadcrumbs">My character ${icon('chevron')} <strong>${current[2]}</strong></div><div class="top-actions">${btn(icon('sun')+' Short rest','short-rest','quiet')}${btn(icon('moon')+' Long rest','long-rest','secondary') }<button class="round-avatar" aria-label="Edit character" data-action="edit-character">${esc(state.name.charAt(0))}</button></div></header>
+    <div class="sidebar-bottom"><button class="text-button account-open" data-action="account">${icon('book')} <span data-account-label>${esc(library?.user?'Character library':'Sign in')}</span></button><button class="text-button" data-action="sources">${icon('info')} Rules & sources <span class="edition">5.5e</span></button><div class="saved" role="status" aria-live="polite"><span></span><span data-save-status>${esc(saveLabel())}</span></div></div></aside>
+    <div class="workspace"><header class="topbar"><div class="breadcrumbs">My character ${icon('chevron')} <strong>${current[2]}</strong></div><div class="top-actions">${btn(icon('sun')+' Short rest','short-rest','quiet')}${btn(icon('moon')+' Long rest','long-rest','secondary') }<button class="button secondary header-account" data-action="account"><span data-account-label>${esc(library?.user?'Character library':'Sign in')}</span></button></div></header>
     <main id="main-content">${route==='wild-shape'?wildPage():route==='character'?characterPage():route==='spells'?spellPage():route==='journal'?journalPage():progressionPage()}</main>
-    <footer><span data-account-footer>${esc(accountFooter())}</span><button class="text-button" data-action="account">Character library</button><button class="text-button" data-action="backup">Restore backup</button><button class="text-button" data-action="export">${icon('download')} Export character</button></footer></div>`;
+    <footer><span data-account-footer>${esc(accountFooter())}</span><button class="text-button" data-action="account" data-account-label>${esc(library?.user?'Character library':'Sign in')}</button><button class="text-button" data-action="backup">Restore backup</button><button class="text-button" data-action="export">${icon('download')} Export character</button></footer></div>`;
 }
 function pageHeading(eyebrow,title,subtitle,action=''){return `<div class="page-heading"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${subtitle}</p></div>${action}</div>`;}
 function resourceStrip(){const q=p();return `<div class="resource-strip"><div class="resource"><span class="resource-symbol">${icon('moon')}</span><div><span class="label">Wild Shape uses</span><div class="resource-value"><span class="pips">${Array.from({length:q.uses},(_,i)=>`<span class="pip ${i<state.uses?'filled':''}"></span>`).join('')}</span><strong>${state.uses}<small> / ${q.uses}</small></strong></div></div></div>
@@ -99,7 +102,7 @@ function journalPage(){return pageHeading('LEAVE A LITTLE OF YOUR STORY','Field 
 const milestones=[[2,'Wild Shape','Your first four forms. Shift as a Bonus Action.'],[3,'Circle of the Moon','CR scales with level; improved AC and temporary HP. Cast circle spells while transformed.'],[5,'Wild Resurgence','Trade a spell slot for a use when empty; recover a level 1 slot once per Long Rest.'],[6,'Improved Circle Forms','Radiant attack damage option; add Wisdom to Constitution saves in Beast form.'],[7,'Elemental Fury','Choose Primal Strike for +1d8 elemental damage once on your turn, or Potent Spellcasting.'],[8,'Take to the sky','Flying forms and eight known forms.'],[10,'Moonlight Step','A 30-foot teleport as a Bonus Action, with uses based on Wisdom.'],[14,'Lunar Form','Once per turn, add 2d10 Radiant damage on a Beast-form attack hit. Bring an ally with Moonlight Step.'],[15,'Improved Elemental Fury','Primal Strike becomes 2d8; Potent Spellcasting gains more cantrip range.'],[18,'Beast Spells','Cast other spells in form, except those with costly or consumed Material components.'],[20,'Archdruid','When initiative begins with no Wild Shape uses, regain one. Nature Magician converts uses into a spell slot once per Long Rest.']];
 function progressionPage(){return pageHeading('GROW INTO YOUR WILD','The path of the moon','Your druid level shapes the possibilities ahead.',btn('Change level','edit-character'))+resourceStrip()+`<div class="progression-layout"><section class="panel timeline"><h2>Your circle’s journey</h2>${milestones.map(([level,title,desc])=>`<div class="milestone ${state.level>=level?'unlocked':''}"><span class="milestone-dot">${state.level>=level?icon('check'):level}</span><div><span class="eyebrow">LEVEL ${level} ${state.level>=level?'· UNLOCKED':''}</span><h3>${title}</h3><p>${desc}</p></div></div>`).join('')}</section><section class="panel progression-table"><h2>Circle Forms at a glance</h2><table><thead><tr><th>Druid level</th><th>Max CR</th><th>Temp HP</th></tr></thead><tbody>${[2,3,6,9,12,15,18,20].map(l=>`<tr class="${state.level===l?'highlight':''}"><td>${l}</td><td>${crLabel(progression(l).maxCR)}</td><td>${progression(l).tempHP}</td></tr>`).join('')}</tbody></table><p class="small muted">Before level 3, use the base Druid limits. Swimming has no level restriction. Flying requires level 8. Level changes do not grant a free rest.</p><button class="text-button" data-action="sources">Read the sources ${icon('arrow')}</button></section></div>`;}
 function refresh(){render();updateForms();updateSpells();}
-function modal(title,body,wide=false){const d=$('#modal'); d.innerHTML=`<div class="modal-header"><h2 id="dialog-title">${title}</h2><button class="mini-button" data-action="close-modal" aria-label="Close dialog">${icon('close')}</button></div><div class="modal-body">${body}</div>`;d.className=wide?'wide':'';d.setAttribute('aria-labelledby','dialog-title');if(!d.open)d.showModal();}
+function modal(title,body,wide=false){const d=$('#modal');clearAuthSecrets(); d.innerHTML=`<div class="modal-header"><h2 id="dialog-title">${title}</h2><button class="mini-button" data-action="close-modal" aria-label="Close dialog">${icon('close')}</button></div><div class="modal-body">${body}</div>`;d.className=wide?'wide':'';d.setAttribute('aria-labelledby','dialog-title');if(!d.open)d.showModal();}
 function details(key){const b=getBeast(key);if(!b)return;const scores=effectiveAbilities(b,state);modal(esc(b.name),`<div class="detail-top">${animalArt(b.name)}<div><span class="eyebrow">${b.size.name} BEAST · CR ${crLabel(b.challenge_rating)}</span><h3>${roleLabel(b)}</h3><p>${eligibility(b,state.level)||'Eligible at your druid level'}</p><p><strong>AC ${effectiveAC(b,state)}</strong> (${b.armor_class} natural${state.level>=3?'; Moon AC applied if higher':''})</p><p><strong>${Object.entries(b.speed).filter(([k,v])=>k!=='unit'&&typeof v==='number'&&v>0).map(([k,v])=>`${k} ${v} ft.`).join(' · ')}</strong></p><p>You retain ${state.hp}/${state.maxHP} HP; gain ${p().tempHP} temp HP. Beast HP (${b.hit_points}) is reference only.</p></div></div><div class="ability-grid compact">${ABILITIES.map(a=>`<div class="ability-card"><span>${a.slice(0,3).toUpperCase()}</span><strong>${signed(mod(scores[a]))}</strong><small>${scores[a]}${['intelligence','wisdom','charisma'].includes(a)?' · you':''}</small></div>`).join('')}</div><p class="small muted">Beast skill bonuses: ${Object.entries(b.skill_bonuses||{}).map(([k,v])=>esc(k.replaceAll('_',' '))+' '+signed(v)).join(', ')||'None'}. Keep your own proficiencies; use your Proficiency Bonus and the higher applicable modifier. ${state.level>=6?'In form, your Moon CON save is '+signed(constitutionSave(b))+'.':''}</p>${b.traits.length?'<h3>Traits</h3>':''}${b.traits.map(t=>`<p><strong>${esc(t.name)}.</strong> ${esc(t.desc)}</p>`).join('')}<div class="image-credit-link"><button class="text-button" data-action="image-credits" data-value="${esc(b.name)}">Image source & credit ${icon('info')}</button></div><h3>Actions</h3>${b.actions.map(a=>`<div class="action-block"><strong>${esc(a.name)}</strong><p>${esc(a.desc)}</p></div>`).join('')}<div class="source-line">SRD 5.2 · Wizards of the Coast · CC BY 4.0 · via <a href="https://api.open5e.com/v2/creatures/${b.key}/" target="_blank" rel="noopener">Open5e ${icon('arrow')}</a></div><div class="modal-footer">${btn(state.favorites.includes(key)?'Remove favorite':'Favorite form','favorite','secondary',`data-key="${key}"`)}${btn('Transform','transform','primary',`data-key="${key}" ${eligibility(b,state.level)||!state.known.includes(key)||!state.uses||!state.hp?'disabled':''}`)}</div>`,true);}
 function editCharacter(){modal('Edit character',`<form id="character-form"><div class="form-grid-fields"><label class="field full">Character name<input name="name" value="${esc(state.name)}" maxlength="70" required></label><label class="field">Species<input name="species" value="${esc(state.species)}" maxlength="70" required></label><label class="field">Background<input name="background" value="${esc(state.background)}" maxlength="70" required></label><label class="field">Druid level<input type="number" name="level" min="1" max="20" value="${state.level}" required></label><label class="field">Maximum HP<input type="number" name="maxHP" min="1" max="999" value="${state.maxHP}" required></label><label class="field">Normal armor class<input type="number" name="ac" min="1" max="40" value="${state.ac}" required></label></div><label class="field">Primal Order<select name="primalOrder"><option value="warden" ${state.primalOrder==='warden'?'selected':''}>Warden · martial weapons and medium armor</option><option value="magician" ${state.primalOrder==='magician'?'selected':''}>Magician · one extra cantrip</option></select></label><h3>Ability scores</h3><div class="ability-inputs">${ABILITIES.map(a=>`<label class="field">${a.slice(0,3).toUpperCase()}<input type="number" min="1" max="30" name="${a}" value="${state.abilities[a]}" required></label>`).join('')}</div><p class="small muted">Moon features start at level 3. Level changes update limits and remove ineligible forms. Adjust HP after leveling; resting restores newly gained resources.</p><div class="modal-footer">${btn('Cancel','close-modal')}<button class="button primary" type="submit">Save character</button></div></form>`);}
 function manageForms(){const eligible=beasts.filter(b=>!eligibility(b,state.level));modal('Your known forms',`<p>Choose up to <strong>${p().known} forms</strong> for character setup or to fill newly unlocked spaces after leveling.</p><p class="small muted">During play, use the Long Rest dialog to replace one known form. These setup controls let you correct your character sheet.</p><form id="known-form"><div class="known-picker">${eligible.map(b=>`<label class="known-choice"><input type="checkbox" name="known" value="${b.key}" ${state.known.includes(b.key)?'checked':''}><span>${esc(b.name)}</span><span class="badge">CR ${crLabel(b.challenge_rating)}</span></label>`).join('')||'<p>Wild Shape unlocks at druid level 2.</p>'}</div><p id="known-count" class="small">${state.known.length} / ${p().known} selected</p><div class="modal-footer">${btn('Cancel','close-modal')}<button class="button primary" type="submit">Save known forms</button></div></form>`,true);}
@@ -124,24 +127,74 @@ function saveLabel(){
   return ({guest:'Guest · saved on this device',loading:'Loading account library…',pending:'Draft on this device · save pending',saving:'Saving to your account…',saved:s.current?'Saved to your account':'Account library · choose or create',offline:'Offline / save failed · draft on this device',conflict:'Save conflict · review your library'})[s.status]||'Draft on this device';
 }
 function accountFooter(){return library?.user?'D&D 5.5e · Private account library':'D&D 5.5e · Guest · this device';}
+function clearAuthSecrets(){document.querySelectorAll('[data-auth-password]').forEach(input=>{input.value='';input.type='password';});}
+function rememberAuthEmail(){const input=$('#account-auth [name="email"]');if(input)authFlow.email=input.value.trim();}
+function dismissAuth(){rememberAuthEmail();clearAuthSecrets();authFlow.close();passwordRequest++;passwordBusy=false;passwordFeedback='';passwordFields={};recoveryPromptPending=false;recoveryMode=false;}
+function authPasswordField(name,label,autocomplete,helper=''){
+  return `<div class="auth-field"><label for="auth-${name}">${label}</label><div class="auth-password"><input id="auth-${name}" name="${name}" type="password" autocomplete="${autocomplete}" data-auth-password data-password-label="${label.toLowerCase()}" required ${autocomplete==='new-password'?'minlength="8"':''} aria-describedby="auth-${name}-error${helper?' auth-password-help':''}"><button type="button" class="password-toggle" data-action="auth-visibility" data-key="auth-${name}" aria-label="Show ${label.toLowerCase()}" aria-pressed="false">Show</button></div>${helper?`<span class="auth-hint" id="auth-password-help">${helper}</span>`:''}<span class="auth-field-error" id="auth-${name}-error" hidden></span></div>`;
+}
+function updateAuthFeedback(){
+  const shell=$('#auth-shell');if(!shell)return;
+  const passwordView=!!$('#account-password-form'), busy=passwordView?passwordBusy:authFlow.busy;
+  const fields=passwordView?passwordFields:authFlow.fields, error=passwordView?passwordFeedback:authFlow.error;
+  const form=$('#account-auth')||$('#account-password-form');
+  if(form){
+    form.setAttribute('aria-busy',String(busy));
+    form.querySelectorAll('input').forEach(input=>{input.readOnly=busy;input.setAttribute('aria-invalid',String(!!fields[input.name]));});
+    const submit=form.querySelector('[type="submit"]');
+    submit.disabled=!cloud||!authReady;
+    submit.setAttribute('aria-disabled',String(busy||submit.disabled));
+    submit.textContent=passwordView?(busy?'Saving password…':'Save password'):
+      authFlow.view==='signup'?(busy?'Creating account…':'Create account'):
+      authFlow.view==='forgot'?(busy?'Sending link…':'Send reset link'):(busy?'Signing in…':'Sign in');
+  }
+  shell.querySelectorAll('[data-action="auth-mode"]').forEach(button=>{button.disabled=busy;});
+  for(const name of ['email','password','confirm']){const target=$('#auth-'+name+'-error');if(target){target.textContent=fields[name]||'';target.hidden=!fields[name];}}
+  const feedback=$('#auth-error');feedback.textContent=error;feedback.hidden=!error;
+  const notice=$('#auth-notice');notice.textContent=passwordView?'':authFlow.notice;notice.hidden=!notice.textContent;
+  const connection=$('#auth-connection');connection.textContent=cloudError||(!authReady?'Connecting…':'');connection.hidden=!connection.textContent;
+  const retry=$('#auth-retry');if(retry){retry.hidden=!!cloud||!authReady;retry.disabled=busy;}
+}
+function authFeedbackMarkup(){return '<div id="auth-error" class="auth-error" role="alert" hidden></div><div id="auth-notice" class="auth-notice" role="status" hidden></div><div id="auth-connection" class="auth-notice" role="status" hidden></div>';}
+function renderAuthDialog(force=false){
+  if(!force&&$('#modal').open&&$('#auth-shell')?.dataset.view===authFlow.view&&!$('#account-password-form')){updateAuthFeedback();return;}
+  const view=authFlow.view, signup=view==='signup', forgot=view==='forgot', sent=view==='sent';
+  const title=sent?'Check your email':signup?'Create your account':forgot?'Forgot your password?':'Welcome back';
+  let body;
+  if(sent){
+    const reset=authFlow.sentFor==='forgot';
+    body=`<div class="auth-sent-mark" aria-hidden="true">${icon('check')}</div><p class="auth-copy">${reset?'If an account exists for':'Check'} <strong>${esc(authFlow.email)}</strong>${reset?', you’ll receive a password reset link shortly.': ' for a confirmation link to finish creating your account.'}</p><p class="auth-copy">${reset?'Open the link in this browser to choose a new password.':'Open the link in this browser, then sign in. If you already have an account, you can sign in now.'}</p><p class="auth-hint">Check your spam folder if you don’t see the email.</p>${authFeedbackMarkup()}<button type="button" class="button primary auth-submit" data-action="auth-mode" data-value="signin">Back to sign in</button><div class="auth-switch"><button type="button" class="auth-link" data-action="auth-mode" data-value="${reset?'forgot':'signup'}" data-focus-email>Use a different email</button></div>`;
+  }else{
+    body=`<p class="auth-copy">${signup?'Save your characters and pick up your adventure on any device.':forgot?'Enter your email and we’ll send you a link to reset your password.':'Sign in to your private character library.'}</p>${authFeedbackMarkup()}<form id="account-auth" novalidate data-mode="${view}"><div class="auth-field"><label for="auth-email">Email</label><input id="auth-email" name="email" type="email" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" required value="${esc(authFlow.email)}" aria-describedby="auth-email-error" autofocus><span class="auth-field-error" id="auth-email-error" hidden></span></div>${forgot?'':authPasswordField('password','Password',signup?'new-password':'current-password',signup?'Use at least 8 characters.':'')}${!signup&&!forgot?'<div class="auth-forgot"><button type="button" class="auth-link" data-action="auth-mode" data-value="forgot">Forgot password?</button></div>':''}<button class="button primary auth-submit" type="submit">${signup?'Create account':forgot?'Send reset link':'Sign in'}</button></form><div class="auth-switch">${forgot?'<button type="button" class="auth-link" data-action="auth-mode" data-value="signin">Back to sign in</button>':signup?'Already have an account? <button type="button" class="auth-link" data-action="auth-mode" data-value="signin">Sign in</button>':'New to Moonwild? <button type="button" class="auth-link" data-action="auth-mode" data-value="signup">Create an account</button>'}</div>`;
+  }
+  modal(title,`<div id="auth-shell" class="auth-shell" data-view="${view}">${body}<button type="button" class="auth-link auth-retry" id="auth-retry" data-action="cloud-retry" hidden>Try connecting again</button><div class="auth-guest"><button type="button" class="auth-link" data-action="close-modal">Continue as guest</button><p>Your guest character stays on this device until you choose to copy it to your account.</p></div></div>`);
+  $('#modal').classList.add('auth-dialog');updateAuthFeedback();
+  if(sent){$('#dialog-title').tabIndex=-1;$('#dialog-title').focus();}
+}
+function changeAuthMode(view,focusEmail=false){
+  if(authFlow.busy)return;
+  if(cloud&&authReady)cloudError='';
+  rememberAuthEmail();clearAuthSecrets();authFlow.change(view);renderAuthDialog(true);
+  const target=focusEmail||view==='forgot'||!authFlow.email?$('#auth-email'):$('#auth-password');
+  target?.focus();if(focusEmail)target?.select();
+}
 function updateAccountChrome(){
   document.querySelectorAll('[data-save-status]').forEach(el=>el.textContent=saveLabel());
-  document.querySelectorAll('[data-account-label]').forEach(el=>el.textContent=library?.user?'Character library':'Sign in & characters');
+  document.querySelectorAll('[data-account-label]').forEach(el=>el.textContent=library?.user?'Character library':'Sign in');
   document.querySelectorAll('[data-account-footer]').forEach(el=>el.textContent=accountFooter());
   if($('#modal').open&&$('#account-library'))showAccount();
+  else if($('#modal').open&&$('#auth-shell'))updateAuthFeedback();
 }
 function showAccount(note=accountNote){
   accountNote=note;
   if(!library)return;
   if(!library.user){
-    modal('Your characters',`<div class="account-intro"><p>Keep playing as a guest, or sign in to a private character library on your other devices.</p><p class="small muted">Your guest character stays on this device. Signing in never uploads it. Copy it to your account from the library when you choose.</p></div>
-      <p class="account-message" role="status">${esc(note||cloudError||(!authReady?'Connecting to accounts…':''))}</p>
-      <form id="account-auth"><label class="field">Email<input name="email" type="email" autocomplete="email" required></label><label class="field">Password<input name="password" type="password" minlength="8" autocomplete="current-password" required></label>
-      <div class="button-row"><button class="button primary" name="intent" value="signin" ${!cloud||!authReady||accountBusy?'disabled':''}>Sign in</button><button class="button secondary" name="intent" value="signup" ${!cloud||!authReady||accountBusy?'disabled':''}>Create account</button></div><p class="small muted">Use at least 8 characters. New accounts may require email confirmation.</p></form>
-      <form id="account-reset"><label class="field">Password reset email<input name="email" type="email" autocomplete="email" required></label><button class="text-button" ${!cloud||!authReady||accountBusy?'disabled':''}>Send password reset</button></form>
-      <div class="modal-footer">${!cloud?btn('Retry connection','cloud-retry'):''}${btn('Continue as guest','close-modal','primary')}</div>`);
+    if(note)authFlow.notice=note;
+    renderAuthDialog();
     return;
   }
+  const d=$('#modal'),entering=!d.open||!$('#account-library'),previousFocus=!entering&&d.contains(document.activeElement)?document.activeElement:null;
+  const focusToken=previousFocus?{id:previousFocus.id,action:previousFocus.dataset.action,key:previousFocus.dataset.key}:null;
   const s=library.snapshot(), disabled=accountBusy?'disabled':'';
   modal('Character library',`<div id="account-library"><div class="account-identity"><span>Signed in as <strong>${esc(s.user.email||'your account')}</strong></span>${btn('Sign out','account-signout','secondary',disabled)}</div><p class="account-message" role="status">${esc(note||saveLabel())}</p>${s.error?`<p class="account-error">${esc(s.error)}</p>`:''}
     <div class="button-row account-tools">${btn('New character','account-new','primary',disabled)}${btn('Duplicate current','account-duplicate','secondary',disabled)}${btn('Save now / retry','account-save','secondary',disabled)}${btn('Refresh library','account-refresh','quiet',disabled)}</div>
@@ -149,21 +202,29 @@ function showAccount(note=accountNote){
     <div class="character-library">${s.records.length?s.records.map(r=>`<article class="library-character ${s.current===r.id?'selected':''}"><div><strong>${esc(r.name)}</strong><span>Level ${esc(r.level)} · ${r.conflict?'Conflict to resolve':r.dirty?'Draft on this device':r.isNew?'New draft':'Saved to account'}${s.current===r.id?' · Current':''}</span></div>${btn(s.current===r.id?'Loaded':'Load','account-load','secondary',`data-key="${esc(r.id)}" ${s.current===r.id||accountBusy?'disabled':''}`)}</article>`).join(''):'<p class="library-empty">Your account has no characters yet. Create one or copy your guest character.</p>'}</div>
     <section class="guest-import"><h3>Your guest character</h3><p><strong>${esc(library.readGuest().name)}</strong> remains separate on this device. Copying adds a new account character and keeps the guest original.</p>${btn('Copy guest to account','account-import','secondary',disabled)}</section>
     <div class="modal-footer">${btn('Change password','account-password','quiet',disabled)}${btn('Return to adventure','close-modal','primary')}</div></div>`,true);
+  const heading=$('#dialog-title');heading.tabIndex=-1;
+  if(entering)heading.focus();
+  else if(focusToken){
+    const target=focusToken.id?document.getElementById(focusToken.id):focusToken.action?Array.from(d.querySelectorAll('[data-action]')).find(el=>el.dataset.action===focusToken.action&&el.dataset.key===focusToken.key):null;
+    if(target&&!target.disabled)target.focus({preventScroll:true});
+  }
 }
 function passwordDialog(note=''){
-  modal(recoveryMode?'Reset your password':'Change password',`<p class="account-message" role="status">${esc(note||'Choose a new password with at least 8 characters.')}</p><form id="account-password-form"><label class="field">New password<input name="password" type="password" minlength="8" autocomplete="new-password" required></label><label class="field">Confirm password<input name="confirm" type="password" minlength="8" autocomplete="new-password" required></label><div class="modal-footer">${btn('Cancel','close-modal')}<button class="button primary" ${accountBusy?'disabled':''}>Save password</button></div></form>`);
+  if($('#modal').open&&$('#account-password-form')){if(note)passwordFeedback=note;updateAuthFeedback();return;}
+  passwordRequest++;passwordFeedback=note;passwordFields={};passwordBusy=false;
+  modal(recoveryMode?'Reset your password':'Change your password',`<div id="auth-shell" class="auth-shell" data-view="password"><p class="auth-copy">Choose a new password to keep your account secure.</p>${authFeedbackMarkup()}<form id="account-password-form" novalidate>${authPasswordField('password','New password','new-password','Use at least 8 characters.')}${authPasswordField('confirm','Confirm password','new-password')}<button class="button primary auth-submit" type="submit">Save password</button></form><div class="auth-switch"><button type="button" class="auth-link" data-action="close-modal">Cancel</button></div></div>`);
+  $('#modal').classList.add('auth-dialog');updateAuthFeedback();$('#auth-password')?.focus();
 }
 async function accountTask(work){
   if(accountBusy)return;
   accountBusy=true;
-  document.querySelectorAll('#account-auth button, #account-reset button, #account-password-form button').forEach(button=>button.disabled=true);
-  if($('#account-library'))showAccount();
-  try{await work();}catch(error){if($('#account-password-form'))passwordDialog(error.message);else showAccount(error.message);}
-  finally{accountBusy=false;if($('#account-library')||$('#account-auth'))showAccount();document.querySelectorAll('#account-password-form button').forEach(button=>button.disabled=false);}
+  if($('#modal').open&&$('#account-library'))showAccount();
+  try{await work();}catch(error){if($('#modal').open)showAccount(error.message);}
+  finally{accountBusy=false;if($('#modal').open&&$('#account-library'))showAccount();}
 }
 async function accountAction(action,key){
   if(action==='account'){showAccount('');return;}
-  if(action==='cloud-retry'){await startCloud();showAccount();return;}
+  if(action==='cloud-retry'){await startCloud();if($('#modal').open)showAccount();return;}
   if(action==='account-password'){passwordDialog();return;}
   await accountTask(async()=>{
     if(action==='account-signout'){
@@ -173,35 +234,56 @@ async function accountAction(action,key){
       const result=await cloud.auth.signOut({scope:'local'});if(result.error)throw result.error;
       if(latestAuthUser)return;
       await library.setUser(null);recoveryMode=false;refresh();
-      showAccount(synced?'Signed out. Your guest character is ready.':'Signed out. Unsynced account drafts stay on this device for your next sign-in.');
+      if($('#modal').open)showAccount(synced?'Signed out. Your guest character is ready.':'Signed out. Unsynced account drafts stay on this device for your next sign-in.');
     }else if(action==='account-new'||action==='account-duplicate'||action==='account-import'){
       const next=action==='account-new'?{...defaultState(),name:'New druid'}:action==='account-import'?library.readGuest():{...state,name:state.name.slice(0,62)+' (copy)'};
-      await library.create(next);showAccount();
-    }else if(action==='account-load'){await library.select(key);showAccount();}
-    else if(action==='account-save'){await library.flush();showAccount();}
-    else if(action==='account-refresh'){await library.flush();await library.refreshLibrary();showAccount();}
-    else if(action==='account-keep-both'){await library.keepBoth();showAccount();}
-    else if(action==='account-use-server'){library.useServer();showAccount();}
+      await library.create(next);if($('#modal').open)showAccount();
+    }else if(action==='account-load'){await library.select(key);if($('#modal').open)showAccount();}
+    else if(action==='account-save'){await library.flush();if($('#modal').open)showAccount();}
+    else if(action==='account-refresh'){await library.flush();await library.refreshLibrary();if($('#modal').open)showAccount();}
+    else if(action==='account-keep-both'){await library.keepBoth();if($('#modal').open)showAccount();}
+    else if(action==='account-use-server'){library.useServer();if($('#modal').open)showAccount();}
   });
 }
-async function accountSubmit(form,data,intent){
-  await accountTask(async()=>{
-    if(!cloud)throw Error('Accounts are unavailable. Retry the connection.');
-    if(form.id==='account-auth'){
-      const email=String(data.get('email')).trim(),password=String(data.get('password'));
-      const result=intent==='signup'?await cloud.auth.signUp({email,password,options:{emailRedirectTo:authRedirect()}}):await cloud.auth.signInWithPassword({email,password});
-      if(result.error)throw result.error;
-      if(result.data.session){if(result.data.session.user.id===latestAuthUser?.id)await library.setUser(result.data.session.user);showAccount();}
-      else showAccount('Check your email to confirm your account, then sign in. Delivery depends on the project email configuration.');
-    }else if(form.id==='account-reset'){
-      const result=await cloud.auth.resetPasswordForEmail(String(data.get('email')).trim(),{redirectTo:authRedirect()});if(result.error)throw result.error;
-      showAccount('If this email can receive a reset link, it will arrive shortly. Open it in this browser.');
-    }else if(form.id==='account-password-form'){
-      if(data.get('password')!==data.get('confirm'))throw Error('Passwords do not match.');
-      const result=await cloud.auth.updateUser({password:String(data.get('password'))});if(result.error)throw result.error;
-      recoveryMode=false;showAccount('Password updated.');
+async function accountSubmit(form,data){
+  if(!$('#modal').open)return;
+  if(form.id==='account-password-form'){await submitPassword(form,data);return;}
+  if(form.id!=='account-auth'||authFlow.busy)return;
+  const email=String(data.get('email')||'').trim(),password=String(data.get('password')||'');
+  authFlow.email=email;authFlow.fields=validateAuth(authFlow.view,{email,password});authFlow.error='';
+  if(Object.keys(authFlow.fields).length){updateAuthFeedback();$('#auth-'+Object.keys(authFlow.fields)[0])?.focus();return;}
+  if(!cloud||!authReady){authFlow.error='We couldn’t connect. Please try connecting again.';updateAuthFeedback();return;}
+  const ticket=authFlow.begin(email);if(!ticket)return;updateAuthFeedback();
+  try{
+    const result=ticket.view==='forgot'?await cloud.auth.resetPasswordForEmail(email,{redirectTo:authRedirect()}):
+      ticket.view==='signup'?await cloud.auth.signUp({email,password,options:{emailRedirectTo:authRedirect()}}):await cloud.auth.signInWithPassword({email,password});
+    if(result.error)throw result.error;
+    if(ticket.view==='signin'&&!result.data?.session)throw Error('Sign-in did not return a session.');
+    if(result.data?.session){
+      if(result.data.session.user.id===latestAuthUser?.id)await library.setUser(result.data.session.user);
+      if(authFlow.finish(ticket)){clearAuthSecrets();if($('#modal').open&&$('#account-auth')===form)showAccount('');}
+    }else if(authFlow.sent(ticket)){
+      clearAuthSecrets();if($('#modal').open&&$('#account-auth')===form)renderAuthDialog(true);
     }
-  });
+  }catch(error){if(authFlow.fail(ticket,error)&&$('#modal').open&&$('#account-auth')===form)updateAuthFeedback();}
+}
+async function submitPassword(form,data){
+  if(passwordBusy)return;
+  const password=String(data.get('password')||''),confirm=String(data.get('confirm')||'');
+  passwordFields=validateAuth('password',{password,confirm});passwordFeedback='';
+  if(Object.keys(passwordFields).length){updateAuthFeedback();$('#auth-'+Object.keys(passwordFields)[0])?.focus();return;}
+  if(!cloud||!library.user){passwordFeedback='This reset link is no longer valid. Request a new link.';updateAuthFeedback();return;}
+  const request=++passwordRequest,epoch=library.epoch;passwordBusy=true;updateAuthFeedback();
+  try{
+    const result=await cloud.auth.updateUser({password});if(result.error)throw result.error;
+    if(request!==passwordRequest||epoch!==library.epoch)return;
+    passwordBusy=false;recoveryMode=false;clearAuthSecrets();
+    if($('#modal').open&&$('#account-password-form')===form)showAccount('Password updated.');
+  }catch(error){
+    if(request!==passwordRequest||epoch!==library.epoch)return;
+    passwordBusy=false;passwordFeedback=authErrorMessage(error,'password');
+    if($('#modal').open&&$('#account-password-form')===form)updateAuthFeedback();
+  }
 }
 function startCloud(){
   if(cloud&&authReady)return Promise.resolve();
@@ -211,8 +293,9 @@ function startCloud(){
 }
 async function initializeCloud(){
   cloudError='';authReady=false;
+  updateAccountChrome();
   const link=new URL(location.href),linkError=link.searchParams.get('error_description')||new URLSearchParams(link.hash.slice(1)).get('error_description');
-  if(linkError)cloudError='This email link could not be used: '+linkError+'. Request a new link from the sign-in form.';
+  if(linkError)cloudError=authErrorMessage({message:linkError},'link');
   try{
     cloud=await connectCloud();library.backend=characterBackend(cloud);
     // Callbacks remain synchronous. DB work runs after the Auth lock releases.
@@ -220,30 +303,33 @@ async function initializeCloud(){
       authGeneration++;
       latestAuthUser=session?.user||null;
       const generation=authGeneration;
-      if(event==='PASSWORD_RECOVERY')recoveryMode=true;
+      if(event==='PASSWORD_RECOVERY'){recoveryMode=true;recoveryPromptPending=true;}
+      if(event==='SIGNED_OUT'){recoveryMode=false;recoveryPromptPending=false;}
       setTimeout(async()=>{
         if(generation!==authGeneration)return;
         await library.setUser(session?.user||null);
         if(generation!==authGeneration)return;
-        if(recoveryMode&&session)passwordDialog();
-        else if($('#account-auth')||$('#account-library'))showAccount();
+        if(recoveryPromptPending&&session){recoveryPromptPending=false;passwordDialog();}
+        else if($('#modal').open&&($('#account-library')||($('#auth-shell')&&!$('#account-password-form'))))showAccount();
       },0);
     });
     authSubscription=subscription.subscription;
     const generation=authGeneration,{data,error}=await cloud.auth.getSession();if(error)throw error;
     if(generation===authGeneration){latestAuthUser=data.session?.user||null;await library.setUser(latestAuthUser);}
     authReady=true;updateAccountChrome();
-    if($('#account-auth'))showAccount();
+    if($('#modal').open&&$('#auth-shell')&&!$('#account-password-form'))showAccount();
   }catch(error){
     authGeneration++;authSubscription?.unsubscribe();authSubscription=null;cloud=null;latestAuthUser=null;
     await library.setUser(null);
-    cloudError='Accounts could not connect. Guest play and JSON exports are available. '+error.message;authReady=true;updateAccountChrome();
-    if($('#account-auth'))showAccount();
+    cloudError='We couldn’t connect to sign in. Please try again. You can continue playing as a guest.';authReady=true;updateAccountChrome();
+    if($('#modal').open&&$('#auth-shell')&&!$('#account-password-form'))showAccount();
   }
 }
 document.addEventListener('click',e=>{const el=e.target.closest('[data-action]');if(!el||el.disabled)return;const a=el.dataset.action,key=el.dataset.key,value=el.dataset.value;
+  if(a==='auth-mode'){changeAuthMode(value,el.hasAttribute('data-focus-email'));return;}
+  if(a==='auth-visibility'){const input=document.getElementById(key);if(!input)return;const visible=input.type==='password';input.type=visible?'text':'password';el.textContent=visible?'Hide':'Show';el.setAttribute('aria-pressed',String(visible));el.setAttribute('aria-label',(visible?'Hide ':'Show ')+input.dataset.passwordLabel);return;}
   if(a==='account'||a==='cloud-retry'||a.startsWith('account-')){accountAction(a,key).catch(error=>toast(error.message));return;}
-  if(a==='close-modal')return $('#modal').close();
+  if(a==='close-modal'){if($('#auth-shell'))dismissAuth();return $('#modal').close();}
   if(a==='tab'){view.tab=value;refresh();} else if(a==='layout'){view.layout=value;refresh();}else if(a==='clear-filters'){view.search='';view.movement='all';view.cr='all';refresh();}
   else if(a==='edit-character')editCharacter();else if(a==='manage-forms')manageForms();else if(a==='beast-details')details(key);else if(a==='sources')sources();else if(a==='image-credits')showImageCredits(value);else if(a==='short-rest'||a==='long-rest')restDialog(a==='short-rest'?'short':'long');
   else if(a==='favorite'){state.favorites=state.favorites.includes(key)?state.favorites.filter(k=>k!==key):[...state.favorites,key];save();refresh();if($('#modal').open)details(key);}
@@ -263,11 +349,11 @@ document.addEventListener('click',e=>{const el=e.target.closest('[data-action]')
   else if(a==='confirm-delete'){state.entries.splice(Number(value),1);save();$('#modal').close();refresh();}
   else if(a==='backup'){pendingBackup=null;modal('Restore a character backup',`<p>Choose a Moonwild JSON export from this device. You can review its character before replacing the current save.</p><label class="field">Character backup<input id="backup-file" type="file" accept=".json,application/json"></label><div id="backup-preview"></div><div class="modal-footer">${btn('Export current save','export')}${btn('Cancel','close-modal')}${btn('Restore character','restore-backup','primary','disabled id="restore-backup-button"')}</div>`);}else if(a==='restore-backup'){if(!pendingBackup)return;state=pendingBackup;pendingBackup=null;log('Restored character backup.');$('#modal').close();refresh();toast('Character restored.');}else if(a==='export'){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='moonwild-character.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Character backup exported.');}
 });
-document.addEventListener('input',e=>{const t=e.target;if(t.id==='form-search'){view.search=t.value;updateForms();}if(t.id==='spell-search'){view.spellSearch=t.value;updateSpells();}if(t.id==='equipment-notes'){state.equipment=t.value;save();}if(t.id==='campaign-notes'){state.notes=t.value;save();}if(t.id==='concentration'){state.concentration=t.value;save();}if(t.closest('#known-form')){const n=$$('#known-form input:checked').length;$('#known-count').textContent=`${n} / ${p().known} selected`;}});
+document.addEventListener('input',e=>{const t=e.target;if(t.closest('#account-auth')){if(t.name==='email')authFlow.email=t.value;delete authFlow.fields[t.name];authFlow.error='';updateAuthFeedback();}if(t.closest('#account-password-form')){delete passwordFields[t.name];passwordFeedback='';updateAuthFeedback();}if(t.id==='form-search'){view.search=t.value;updateForms();}if(t.id==='spell-search'){view.spellSearch=t.value;updateSpells();}if(t.id==='equipment-notes'){state.equipment=t.value;save();}if(t.id==='campaign-notes'){state.notes=t.value;save();}if(t.id==='concentration'){state.concentration=t.value;save();}if(t.closest('#known-form')){const n=$$('#known-form input:checked').length;$('#known-count').textContent=`${n} / ${p().known} selected`;}});
 const $$=s=>Array.from(document.querySelectorAll(s));
 document.addEventListener('change',async e=>{const t=e.target;if(t.id==='backup-file'){pendingBackup=null;$('#restore-backup-button').disabled=true;try{const file=t.files[0];if(!file)return;if(file.size>2000000)throw Error('Choose a backup smaller than 2 MB.');const raw=JSON.parse(await file.text());if(raw.version!==1||typeof raw.name!=='string'||!raw.abilities||!Array.isArray(raw.known))throw Error('This is not a valid Moonwild character backup.');pendingBackup=normalize(raw);$('#backup-preview').innerHTML='<div class="source-card"><h3>'+esc(pendingBackup.name)+'</h3><p>Level '+pendingBackup.level+' · '+esc(pendingBackup.species)+' · '+pendingBackup.known.length+' known forms.</p><p>'+(library?.user?(library.current?'Restoring replaces “'+esc(state.name)+'” and saves the replacement to your account.':'Restoring adds this character to your account and saves it to the cloud.'):'Restoring replaces the character saved in this browser.')+'</p></div>';$('#restore-backup-button').disabled=false;}catch(err){$('#backup-preview').textContent=err.message;}return;}if(t.id==='movement-filter'){view.movement=t.value;updateForms();}if(t.id==='cr-filter'){view.cr=t.value;updateForms();}if(t.id==='sort-forms'){view.sort=t.value;updateForms();}});
 document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=new FormData(f);
-  if(f.id.startsWith('account-')){accountSubmit(f,d,e.submitter?.value).catch(error=>toast(error.message));return;}
+  if(f.id.startsWith('account-')){accountSubmit(f,d).catch(error=>{authFlow.error=authErrorMessage(error);if($('#modal').open)updateAuthFeedback();});return;}
   if(f.id==='character-form'){const old=p();const level=Number(d.get('level'));state={...state,name:d.get('name').trim(),species:d.get('species').trim(),background:d.get('background').trim(),level,maxHP:Number(d.get('maxHP')),ac:Number(d.get('ac')),primalOrder:d.get('primalOrder'),abilities:Object.fromEntries(ABILITIES.map(a=>[a,Number(d.get(a))]))};state=normalize(state);if(progression(level).uses>old.uses)toast('New resource limits unlocked. Complete a rest to recharge.');log('Updated character sheet.');}
   else if(f.id==='known-form'){const known=d.getAll('known');if(known.length>p().known)return toast(`Choose at most ${p().known} forms.`);state.known=known;if(!known.includes(state.active))state.active=null;log('Updated known forms during setup / level-up.');}
   else if(f.id==='rest-form'){const forget=d.get('forget'),learn=d.get('learn');if(Boolean(forget)!==Boolean(learn))return toast('Choose both a form to forget and a form to learn, or leave both blank.');if(forget&&learn)state.known=state.known.map(k=>k===forget?learn:k);state=rest(state,f.dataset.type);log(`Completed a ${f.dataset.type==='long'?'Long':'Short'} Rest.`);toast('Rest complete. Your resources are refreshed.');}
@@ -279,14 +365,16 @@ document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=new
   save();$('#modal').close();refresh();
 });
 window.addEventListener('hashchange',()=>{refresh();window.scrollTo(0,0);});
+$('#modal').addEventListener('cancel',()=>{if($('#auth-shell'))dismissAuth();});
+$('#modal').addEventListener('close',()=>{if(!$('#modal').open&&$('#auth-shell'))dismissAuth();});
 document.addEventListener('keydown',e=>{if(e.target.matches('[role=tab]')&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const tabs=$$('[role=tab]');let i=tabs.indexOf(e.target);i=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;view.tab=tabs[i].dataset.value;refresh();$$('[role=tab]')[i].focus();return;}if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&!$('#modal').open){e.preventDefault();$('#form-search')?.focus();}});
 setInterval(()=>{if($('#shape-timer'))$('#shape-timer').textContent=remainingTime();if(state?.active&&state.shiftedAt&&Date.now()-state.shiftedAt>=p().hours*3600000){state.active=null;save();refresh();toast('Your Wild Shape duration has ended.');}},10000);
 async function boot(){try{const responses=await Promise.all([fetch('./data/beasts.json'),fetch('./data/spells.json')]);if(responses.some(r=>!r.ok))throw Error('Data could not be loaded.');const [b,s]=await Promise.all(responses.map(r=>r.json()));beasts=b.filter(b=>!b.name.startsWith('Swarm of'));spells=s;
   // Access storage lazily: privacy settings may make the localStorage getter throw.
   const storage={getItem:key=>localStorage.getItem(key),setItem:(key,value)=>localStorage.setItem(key,value)};
   library=new CharacterStore({storage,normalize,defaults:defaultState,backend:null,changed:(snapshot,replace)=>{
-    if(displayedAccount!==(snapshot.user?.id||null)){displayedAccount=snapshot.user?.id||null;accountNote='';if($('#account-password-form')){recoveryMode=false;showAccount();}}
-    if(replace){state=normalize(snapshot.character);if($('#modal').open&&!$('#account-library')&&!$('#account-auth')&&!$('#account-password-form'))$('#modal').close();refresh();if($('#account-library')||(!snapshot.user&&$('#account-password-form')))showAccount();}
+    if(displayedAccount!==(snapshot.user?.id||null)){displayedAccount=snapshot.user?.id||null;accountNote='';rememberAuthEmail();clearAuthSecrets();authFlow.close();passwordRequest++;passwordBusy=false;if($('#modal').open&&$('#account-password-form'))showAccount();}
+    if(replace){state=normalize(snapshot.character);if($('#modal').open&&!$('#account-library')&&!$('#auth-shell'))$('#modal').close();refresh();if($('#modal').open&&($('#account-library')||(snapshot.user&&$('#auth-shell'))))showAccount();}
     else updateAccountChrome();
   }});
   state=library.character;if(state.active&&Date.now()-(state.shiftedAt||0)>=p().hours*3600000){state.active=null;save();}refresh();startCloud();

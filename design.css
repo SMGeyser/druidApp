@@ -64,7 +64,38 @@ button .icon, a .icon { pointer-events: none; }
 .guest-import h3, .account-conflict h3 { margin-top: 0; font-size: 16px; }
 .guest-import p, .account-conflict p, .library-empty { font-size: 13px; color: #687367; line-height: 1.7; }
 .account-conflict { padding: 18px; border: 1px solid #d2b282; border-radius: 6px; background: #fbf7ed; margin: 18px 0; }
-#account-reset { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 18px; }
+dialog.auth-dialog { width: min(440px, calc(100vw - 28px)); }
+.auth-dialog .modal-header { border-bottom: 0; padding-bottom: 8px; }
+.auth-dialog .modal-body { padding-top: 8px; }
+.auth-shell { font-size: 13px; }
+.auth-shell [hidden] { display: none; }
+.auth-copy { color: var(--muted); line-height: 1.7; margin-bottom: 20px; overflow-wrap: anywhere; }
+.auth-copy strong { color: var(--ink); font-weight: 550; }
+.auth-field { display: grid; gap: 7px; margin: 17px 0; }
+.auth-field > label { font-size: 12px; font-weight: 550; color: #435a40; }
+.auth-field input { width: 100%; min-width: 0; min-height: 44px; border: 1px solid #cdd5c6; border-radius: 5px; padding: 11px 12px; background: #fcfdf9; color: var(--ink); font: inherit; }
+.auth-field input[aria-invalid="true"] { border-color: #a85a45; }
+.auth-field input[readonly] { background: #f5f7f1; }
+.auth-password { position: relative; }
+.auth-password input { padding-right: 65px; }
+.password-toggle { position: absolute; top: 1px; right: 1px; height: calc(100% - 2px); min-width: 60px; border: 0; border-radius: 0 4px 4px 0; background: transparent; color: #4e6946; padding: 0 12px; font-size: 12px; }
+.password-toggle:hover { background: #edf2e9; }
+.auth-hint { color: #6b7565; font-size: 11px; line-height: 1.6; }
+.auth-field-error { color: #964832; font-size: 12px; line-height: 1.5; }
+.auth-error, .auth-notice { border-radius: 5px; padding: 11px 13px; margin: 14px 0; font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
+.auth-error { background: #faf0eb; color: #88452f; }
+.auth-notice { background: #f1f5ec; color: #4e6545; }
+.auth-link { display: inline; border: 0; padding: 0; color: #385a3b; background: transparent; font: inherit; font-weight: 550; text-decoration: underline; text-underline-offset: 3px; }
+.auth-link:disabled { opacity: .55; cursor: default; }
+.auth-forgot { display: flex; justify-content: flex-end; margin: -3px 0 20px; font-size: 12px; }
+.auth-submit { width: 100%; min-height: 44px; margin-top: 5px; font-size: 13px; }
+.auth-submit[aria-disabled="true"] { opacity: .65; cursor: progress; }
+.auth-switch { text-align: center; margin-top: 21px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.auth-guest { border-top: 1px solid var(--line); padding-top: 19px; margin-top: 23px; text-align: center; font-size: 12px; }
+.auth-guest p { margin: 10px 0 0; color: #74806d; font-size: 11px; line-height: 1.6; }
+.auth-retry { margin: 12px auto 0; font-size: 12px; }
+.auth-sent-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: #eef3e8; color: #4e6946; margin: 8px 0 20px; }
+.header-account { margin-left: 7px; }
 @media (max-width: 720px) { .account-tools .button { flex: 1 1 140px; } .account-identity .button { width: auto; } .library-character { padding: 12px; } footer { flex-wrap: wrap; } }
 .workspace { margin-left: 224px; }
 .topbar { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 0 34px; border-bottom: 1px solid var(--line); background: #fafaf7; }
@@ -415,6 +446,9 @@ dialog::backdrop { background: #1b302951; }
 }
 @media (max-width: 480px) {
   .topbar { padding: 0 16px; } .top-actions { gap: 3px; }
+  .topbar .breadcrumbs { display: none; }
+  .topbar .top-actions { width: 100%; justify-content: space-between; }
+  .auth-field input { font-size: 16px; }
   .top-actions .button { padding: 6px; } .top-actions .button .icon { display: none; }
   main { padding: 23px 16px; }
   .page-heading { align-items: center; gap: 10px; } .page-heading > .button { font-size: 10px; padding: 8px; }
