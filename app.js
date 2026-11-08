@@ -32,15 +32,17 @@ function normalize(s){
 }
 const nav=[['character','grid','Character sheet'],['wild-shape','paw','Wild Shape'],['spells','spark','Spellbook'],['journal','book','Field journal'],['progression','leaf','Progression']];
 const page=()=>nav.some(n=>n[0]===location.hash.slice(1))?location.hash.slice(1):'wild-shape';
+function headerMode(){return library?.user?(accountBusy?'busy':'signed-in'):'guest';}
+function headerActions(){return library?.user?`${btn('Characters','account','secondary','aria-label="Open character library"')}${btn('Sign out','account-signout','quiet',accountBusy?'disabled':'')}`:`${btn('Sign in','auth-mode','secondary','data-value="signin"')}${btn('Sign up','auth-mode','primary','data-value="signup"')}`;}
 function render(){
   const route=page(), current=nav.find(n=>n[0]===route);
-  $('#app').innerHTML=`<aside class="sidebar"><a class="brand" href="#wild-shape"><img src="./assets/mark.svg" alt=""/><span>moonwild<span class="brand-sub">DRUID CHARACTER COMPANION</span></span></a>
+  $('#app').innerHTML=`<header class="site-header"><a class="brand" href="#wild-shape"><img src="./assets/mark.svg" alt=""/><span>moonwild<span class="brand-sub">DRUID CHARACTER COMPANION</span></span></a><div class="site-account" data-header-account data-mode="${headerMode()}">${headerActions()}</div></header><aside class="sidebar">
     <div class="character-mini"><div class="avatar">${icon('leaf')}</div><strong>${esc(state.name)}</strong><span>Level ${state.level} · ${state.level>=3?'Circle of the Moon':'Druid'}</span><button class="text-button" data-action="edit-character">Manage character ${icon('chevrondown')}</button></div>
     <div class="nav-label">YOUR ADVENTURE</div><nav>${nav.map(([id,i,label])=>`<a href="#${id}" class="nav-link ${route===id?'active':''}" ${route===id?'aria-current="page"':''}>${icon(i)}<span>${label}</span>${id==='wild-shape'?'<span class="nav-count">'+state.known.length+'</span>':''}</a>`).join('')}</nav>
-    <div class="sidebar-bottom"><button class="text-button account-open" data-action="account">${icon('book')} <span data-account-label>${esc(library?.user?'Character library':'Sign in')}</span></button><button class="text-button" data-action="sources">${icon('info')} Rules & sources <span class="edition">5.5e</span></button><div class="saved" role="status" aria-live="polite"><span></span><span data-save-status>${esc(saveLabel())}</span></div></div></aside>
-    <div class="workspace"><header class="topbar"><div class="breadcrumbs">My character ${icon('chevron')} <strong>${current[2]}</strong></div><div class="top-actions">${btn(icon('sun')+' Short rest','short-rest','quiet')}${btn(icon('moon')+' Long rest','long-rest','secondary') }<button class="button secondary header-account" data-action="account"><span data-account-label>${esc(library?.user?'Character library':'Sign in')}</span></button></div></header>
+    <div class="sidebar-bottom"><button class="text-button" data-action="sources">${icon('info')} Rules & sources <span class="edition">5.5e</span></button><div class="saved" role="status" aria-live="polite"><span></span><span data-save-status>${esc(saveLabel())}</span></div></div></aside>
+    <div class="workspace"><header class="topbar"><div class="breadcrumbs">My character ${icon('chevron')} <strong>${current[2]}</strong></div><div class="top-actions">${btn(icon('sun')+' Short rest','short-rest','quiet')}${btn(icon('moon')+' Long rest','long-rest','secondary') }</div></header>
     <main id="main-content">${route==='wild-shape'?wildPage():route==='character'?characterPage():route==='spells'?spellPage():route==='journal'?journalPage():progressionPage()}</main>
-    <footer><span data-account-footer>${esc(accountFooter())}</span><button class="text-button" data-action="account" data-account-label>${esc(library?.user?'Character library':'Sign in')}</button><button class="text-button" data-action="backup">Restore backup</button><button class="text-button" data-action="export">${icon('download')} Export character</button></footer></div>`;
+    <footer><span data-account-footer>${esc(accountFooter())}</span><button class="text-button" data-action="backup">Restore backup</button><button class="text-button" data-action="export">${icon('download')} Export character</button></footer></div>`;
 }
 function pageHeading(eyebrow,title,subtitle,action=''){return `<div class="page-heading"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${subtitle}</p></div>${action}</div>`;}
 function resourceStrip(){const q=p();return `<div class="resource-strip"><div class="resource"><span class="resource-symbol">${icon('moon')}</span><div><span class="label">Wild Shape uses</span><div class="resource-value"><span class="pips">${Array.from({length:q.uses},(_,i)=>`<span class="pip ${i<state.uses?'filled':''}"></span>`).join('')}</span><strong>${state.uses}<small> / ${q.uses}</small></strong></div></div></div>
@@ -180,7 +182,8 @@ function changeAuthMode(view,focusEmail=false){
 }
 function updateAccountChrome(){
   document.querySelectorAll('[data-save-status]').forEach(el=>el.textContent=saveLabel());
-  document.querySelectorAll('[data-account-label]').forEach(el=>el.textContent=library?.user?'Character library':'Sign in');
+  const header=$('[data-header-account]'), mode=headerMode();
+  if(header&&header.dataset.mode!==mode){header.innerHTML=headerActions();header.dataset.mode=mode;}
   document.querySelectorAll('[data-account-footer]').forEach(el=>el.textContent=accountFooter());
   if($('#modal').open&&$('#account-library'))showAccount();
   else if($('#modal').open&&$('#auth-shell'))updateAuthFeedback();
@@ -217,10 +220,9 @@ function passwordDialog(note=''){
 }
 async function accountTask(work){
   if(accountBusy)return;
-  accountBusy=true;
-  if($('#modal').open&&$('#account-library'))showAccount();
-  try{await work();}catch(error){if($('#modal').open)showAccount(error.message);}
-  finally{accountBusy=false;if($('#modal').open&&$('#account-library'))showAccount();}
+  accountBusy=true;updateAccountChrome();
+  try{await work();}catch(error){if($('#modal').open)showAccount(error.message);else toast(error.message);}
+  finally{accountBusy=false;updateAccountChrome();}
 }
 async function accountAction(action,key){
   if(action==='account'){showAccount('');return;}
